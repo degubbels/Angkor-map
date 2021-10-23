@@ -14,7 +14,15 @@ import tourA from './res/tourA.json';
 
 </script>
 <style>
+@font-face {
+    font-family: KhmerUI;
+    /* src: url(./src/res/font/KhmerUI.ttf) format("truetype"),
+         url(./src/res/font/KhmerUIb.ttf) format("truetype"); */
+    src: url(./src/res/font/tt0010m_.ttf) format("truetype")
+}
+
 #app {
+    font-family: KhmerUI, sans-serif;
     /* font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

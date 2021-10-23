@@ -7,6 +7,7 @@
         <img class="imagebox"
             :src="image"
             >
+        <p class="namelabel">{{name}}</p>
     </div>
 </template>
 
@@ -21,10 +22,12 @@ export default {
             image: null,
             textEn: "",
             textEs: "",
+            name:"",
             hotspot: "idle",
         }
     },
     mounted() {
+        this.name = this.$props.textSource[this.hotspot].name;
         this.textEn = this.$props.textSource[this.hotspot].en;
         this.textEs = this.$props.textSource[this.hotspot].es;
         this.image = this.$props.textSource[this.hotspot].img;
@@ -35,6 +38,20 @@ export default {
 .infobox {
     position: absolute;
     display: block;
+}
+
+.namelabel {
+    position: absolute;
+    z-index: 30;
+
+    margin: 0px 4px;
+    top: calc(152px - 26px);
+    width: 282px;
+
+
+    color: white;
+    font-weight: 600;
+    font-size: 26px;
 }
 
 .imagebox {
@@ -56,14 +73,15 @@ export default {
     left: 33px;
 
     width: 262px;
-    height: 168px;
+    /* height: 168px; */
 
     padding: 16px;
     padding-top: 24px;
+    padding-bottom: 4px;
 
     background-color: rgba(0,0,0,0.5);
 
-    font-size: 11pt;
+    font-size: 14.5px;
     font-weight: bold;
     text-align: left;
 }
