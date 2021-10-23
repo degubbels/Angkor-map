@@ -16,9 +16,12 @@
 let r = 100;
 
 const CONTROLLER_DEADZONE = 0.15;
-const MOVEMENT_SPEED = 10;
+const MOVEMENT_SPEED = 5;
 
 const HOTSPOT_RADIUS = 10;
+
+const MAGNET_RADIUS = 30;
+const MAGNET_SPEED = 2;
 
 const hotspots = [
     { id: 'A1', x: 896, y: 738 },
@@ -39,6 +42,10 @@ export default {
             ctx: 0,
             im: null,
             controller: null,
+            pos: {
+                x: 0,
+                y: 0,
+            },
             posX: 0,
             posY: 0,
             rX: 100,
@@ -48,14 +55,14 @@ export default {
     methods: {
         redraw() {
             // Draw image section for full size map
-            this.ctx.drawImage(this.im, this.posX-this.rX+4, this.posY-this.rY+4,
+            this.ctx.drawImage(this.im, this.pos.x-this.rX+4, this.pos.y-this.rY+4,
                 2*this.rX, 2*this.rY,
                 0, 0,
                 2*this.rX, 2*this.rY);
 
             // Move to position
-            this.$refs.reticle.style.left = this.posX - this.rX + "px"
-            this.$refs.reticle.style.top = this.posY - this.rY + "px"
+            this.$refs.reticle.style.left = this.pos.x - this.rX + "px"
+            this.$refs.reticle.style.top = this.pos.y - this.rY + "px"
         },
         processControllerInput() {
             
@@ -67,24 +74,45 @@ export default {
 
                 // WARNING: this code does not work on chromium (input polling required), only firefox is tested
                 if (!isNaN(this.controller.axes[0]) && Math.abs(this.controller.axes[0]) > CONTROLLER_DEADZONE) {
-                    this.posX += this.controller.axes[0] * MOVEMENT_SPEED;
+                    this.pos.x += this.controller.axes[0] * MOVEMENT_SPEED;
                 }
 
                 if (!isNaN(this.controller.axes[1]) && Math.abs(this.controller.axes[1]) > CONTROLLER_DEADZONE) {
-                    this.posY += this.controller.axes[1] * MOVEMENT_SPEED;
+                    this.pos.y += this.controller.axes[1] * MOVEMENT_SPEED;
                 }
             }
         },
         processMouseInput(e) {
-            this.posX = e.x;
-            this.posY = e.y;
+            this.pos.x = e.x;
+            this.pos.y = e.y;
         },
         checkHotspots() {
 
             for (const spot of hotspots) {
-                if (Math.abs(spot.x - this.posX) < HOTSPOT_RADIUS
-                    && Math.abs(spot.y - this.posY) < HOTSPOT_RADIUS) {
+                const d = this.distance(this.pos, spot);
+                if (d < MAGNET_RADIUS && d > 1) {
                     
+                    const dx = spot.x - this.pos.x;
+                    // Prevent overshooting
+                    console.log(dx)
+                    if (Math.abs(dx) < MAGNET_SPEED) {
+                        this.pos.x += dx;
+                    } else {
+                        this.pos.x += MAGNET_SPEED * Math.sign(dx);
+                    }
+
+                    const dy = spot.y - this.pos.y;
+                    // Prevent overshooting
+                    if (Math.abs(dy) < MAGNET_SPEED) {
+                        this.pos.y += dy;
+                    } else {
+                        this.pos.y += MAGNET_SPEED * Math.sign(dy);
+                    }
+                }
+
+                if (d < HOTSPOT_RADIUS) {
+                    
+                    // Prevent continuously reporting the same spot
                     if (this.hotspot !== spot.id) {
                         this.$emit('hotspotFound', spot.id);
                     }
@@ -101,6 +129,9 @@ export default {
             }
             this.checkHotspots();
         },
+        distance(a, b) {
+            return Math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2);
+        }
     },
     mounted() {
         this.ctx = this.$refs.reticleCanvas.getContext("2d")
