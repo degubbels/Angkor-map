@@ -4,5 +4,11 @@
         "en": "Get in the chopper and make the tourist tour or switch to Lidar-mode and discover what's hidden underneath the surface.",
         "es": "¡EXPLORA ANGKOR! Sómete al helicóptero y hacer el tour turístico o cambie al modo Lidar y descubre lo que está oculto debajo de la superficie.",
         "img": "./src/res/hotspots/HS_A_IMG_101.png"
+    },
+    "A1": {
+        "name": "ANGKOR WAT",
+        "en": "Built between 1113 and 1150 by Suryavarman II as his state temple and capital city. It's a huge religious monument measuring 5000 acres in surface.",
+        "es": "Construido entre 1113 y 1150 por Suryavarman II como su templo estatal y ciudad capital. Es un enorme monumento religioso que mide 5000 acres de superficie.",
+        "img": "./src/res/hotspots/HS_A_IMG_101.png"
     }
 }

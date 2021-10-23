@@ -15,23 +15,33 @@
 
 export default {
     props: [
-        'textSource'
+        'textSource',
+        'hotspot'
     ],
     data () {
         return {
             image: null,
             textEn: "",
             textEs: "",
-            name:"",
-            hotspot: "idle",
+            name:""
         }
     },
     mounted() {
-        this.name = this.$props.textSource[this.hotspot].name;
-        this.textEn = this.$props.textSource[this.hotspot].en;
-        this.textEs = this.$props.textSource[this.hotspot].es;
-        this.image = this.$props.textSource[this.hotspot].img;
+        this.updateContents();
     },
+    watch: {
+        hotspot: function (val) {
+            this.updateContents();
+        }
+    },
+    methods: {
+        updateContents() {
+            this.name = this.$props.textSource[this.hotspot].name;
+            this.textEn = this.$props.textSource[this.hotspot].en;
+            this.textEs = this.$props.textSource[this.hotspot].es;
+            this.image = this.$props.textSource[this.hotspot].img;
+        }
+    }
 }
 </script>
 <style scoped>
@@ -62,7 +72,7 @@ export default {
     width: 282px;
     height: 152px;
 
-    border: 2px solid #eff163;
+    border: 2px solid;
 }
 
 .textbox {
@@ -97,5 +107,14 @@ export default {
 #A > .infobox {
     top: 690px;
     left: 202px;
+
+    color: #eff163;
+}
+#B > .infobox {
+    top: 85px;
+    left: 499px;
+
+    color: #00ccff;
+    transform: rotate(90deg);
 }
 </style>

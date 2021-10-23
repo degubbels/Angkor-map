@@ -1,17 +1,45 @@
 <template>
 <div>
-    <img src="./res/background.png" class="background">
+    <img src="./res/background-labeled.png" class="background">
     <div class="tourcontainer" id="A">
-        <Reticle image="./src/res/image001.jpg"></Reticle>
-        <InfoBox :textSource=tourA></InfoBox>
+        <Reticle 
+            image="./src/res/hotspots-map.png"
+            visor="./src/res/visor-A.png"
+            @hotspot-found="onHotspotFound"
+            :hotspot="aSpot"
+        ></Reticle>
+        <InfoBox :textSource="tourA" :hotspot="aSpot"></InfoBox>
     </div>
+    <!-- <div class="tourcontainer" id="B">
+        <InfoBox :textSource=tourA :hotspot="idle"></InfoBox>
+    </div> -->
 </div>
 </template>
-<script setup>
+<script>
+import { ref } from 'vue';
 import Reticle from './components/Reticle.vue';
 import InfoBox from './components/InfoBox.vue';
 import tourA from './res/tourA.json';
 
+// const aSpot = ref("idle");
+export default {
+    components: {
+        Reticle,
+        InfoBox
+    },
+    data() {
+        return {
+            aSpot: "idle",
+            tourA: tourA,
+        }
+    },
+    methods: {
+        onHotspotFound(id) {
+            this.aSpot = id;
+            console.log(`hotspot: ${id}`);
+        }
+    }
+}
 </script>
 <style>
 @font-face {
