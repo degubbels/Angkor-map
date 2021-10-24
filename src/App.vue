@@ -1,10 +1,10 @@
 <template>
 <div>
-    <img src="./res/background-labeled.png" class="background">
+    <img src="/background-labeled.png" class="background">
     <div class="tourcontainer" id="A">
         <Reticle 
-            image="./src/res/hotspots-map.png"
-            visor="./src/res/visor-A.png"
+            image="/hotspots-map.png"
+            visor="/visor-A.png"
             @hotspot-found="onHotspotFound"
             :hotspot="aSpot"
         ></Reticle>

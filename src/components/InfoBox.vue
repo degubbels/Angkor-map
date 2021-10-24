@@ -9,7 +9,7 @@
             >
         <p class="namelabel">{{name}}</p>
     </div>
-</template>
+</template>z
 <script>
 
 const IMAGE_INTERVAL = 5;
