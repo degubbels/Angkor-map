@@ -36,7 +36,6 @@ export default {
     methods: {
         onHotspotFound(id) {
             this.aSpot = id;
-            console.log(`hotspot: ${id}`);
         }
     }
 }

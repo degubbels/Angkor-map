@@ -7,18 +7,20 @@
             height="140"
             >
         </canvas>
-        <img class="visor" 
+        <img class="visor"
+            ref="visor"
             :src=visor>
     </div>
 </template>
 <script>
+import Utils from '/src/Utils.js'
 
 let r = 100;
 
 const CONTROLLER_DEADZONE = 0.15;
 const MOVEMENT_SPEED = 5;
 
-const HOTSPOT_RADIUS = 10;
+const HOTSPOT_RADIUS = 4;
 
 const MAGNET_RADIUS = 30;
 const MAGNET_SPEED = 2;
@@ -94,7 +96,6 @@ export default {
                     
                     const dx = spot.x - this.pos.x;
                     // Prevent overshooting
-                    console.log(dx)
                     if (Math.abs(dx) < MAGNET_SPEED) {
                         this.pos.x += dx;
                     } else {
@@ -115,6 +116,7 @@ export default {
                     // Prevent continuously reporting the same spot
                     if (this.hotspot !== spot.id) {
                         this.$emit('hotspotFound', spot.id);
+                        Utils.triggerAnim(this.$refs.reticle, "flash", 1);
                     }
                 }
             }
@@ -169,6 +171,15 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 100%
+    height: 100%;
+}
+
+.anim-flash {
+    animation: flash 0.15s linear 0s 1 alternate;
+}
+
+@keyframes flash {
+    33% { transform: scale(1.1); }
+    83% { transform: scale(0.95); }
 }
 </style>
