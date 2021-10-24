@@ -9,7 +9,7 @@
         "name": "ANGKOR WAT",
         "en": "Built between 1113 and 1150 by Suryavarman II as his state temple and capital city. It's a huge religious monument measuring 5000 acres in surface.",
         "es": "Construido entre 1113 y 1150 por Suryavarman II como su templo estatal y ciudad capital. Es un enorme monumento religioso que mide 5000 acres de superficie.",
-        "img": "./src/res/hotspots/HS_A_IMG_101.png"
+        "img": ["./src/res/hotspots/HS_A_IMG_101.png", "./src/res/hotspots/HS_A_IMG_102.png"]
     },
     "A2": {
         "name": "ANGKOR THOM",
@@ -28,5 +28,29 @@
         "en": "Famous for all its towers decorated with stone faces. This temple was dedicated to Buddha.  There are 54 peaks which are said to symbolisze the 54 provinces of the Khmer Empire.",
         "es": "Famoso por todas sus torres decoradas con caras de piedra. Este templo fue dedicado a Buda. Hay 54 picos que se dice que simbolizan las 54 provincias del Imperio Khmer.",
         "img": ["./src/res/hotspots/HS_A_IMG_401.png", "./src/res/hotspots/HS_A_IMG_402.png"]
+    },
+    "A5": {
+        "name": "PRE RUP",
+        "en": "Temple dedicated to the Hindu god Shiva. It goes back to the beginning of the Empire: King Rajendravarman built it in 961!",
+        "es": "Templo dedicado al dios hindú Shiva. Se remonta al principio del Imperio: ¡El rey Rajendravarman lo construyó en 961!",
+        "img": ["./src/res/hotspots/HS_A_IMG_501.png", "./src/res/hotspots/HS_A_IMG_502.png"]
+    },
+    "A6": {
+        "name": "PREAH KHAN",
+        "en": "This site was more than just a temple. It was a real city with several Buddhist monasteries and a university with more than thousand of scholars.",
+        "es": "Este sitio era más que un simple templo. Es una ciudad real con varios monasterios budistas y una universidad con más de mil estudiosos.",
+        "img": ["./src/res/hotspots/HS_A_IMG_601.png", "./src/res/hotspots/HS_A_IMG_602.png"]
+    },
+    "A7": {
+        "name": "TA KEO",
+        "en": "This temple was dedicated to the Hindu god Shiva. The stone walls show a very high precsion of workmanship. However, it was was never finished.",
+        "es": "Este templo fue dedicado al dios hindú Shiva. Las paredes de piedra muestran una precsión muy alta de mano de obra. Sin embargo, nunca se terminó.",
+        "img": ["./src/res/hotspots/HS_A_IMG_701.png", "./src/res/hotspots/HS_A_IMG_702.png"]
+    },
+    "A8": {
+        "name": "SRAH SRANG",
+        "en": "This is a 'Baray' a man made water reservoir. There are two more big Barays at Angkor, located East and West of Angkor Wat.",
+        "es": "Este es un 'Baray', un depósito de agua hecho por el hombre. Hay dos Barays más grandes en Angkor, ubicados Este y oeste de Angkor Wat.",
+        "img": ["./src/res/hotspots/HS_A_IMG_801.png", "./src/res/hotspots/HS_A_IMG_802.png"]
     }
 }
