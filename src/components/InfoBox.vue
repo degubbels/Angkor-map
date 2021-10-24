@@ -10,8 +10,9 @@
         <p class="namelabel">{{name}}</p>
     </div>
 </template>
-
 <script>
+
+const IMAGE_INTERVAL = 5;
 
 export default {
     props: [
@@ -23,7 +24,9 @@ export default {
             image: null,
             textEn: "",
             textEs: "",
-            name:""
+            name:"",
+            imageIndex: 0,
+            intervalLoop: null,
         }
     },
     mounted() {
@@ -39,7 +42,24 @@ export default {
             this.name = this.$props.textSource[this.hotspot].name;
             this.textEn = this.$props.textSource[this.hotspot].en;
             this.textEs = this.$props.textSource[this.hotspot].es;
-            this.image = this.$props.textSource[this.hotspot].img;
+
+            const srcImg = this.$props.textSource[this.hotspot].img;
+            window.clearInterval(this.intervalLoop);
+            // Set image (slideshow)
+            if (Array.isArray(srcImg)) {
+
+                this.intervalLoop = window.setInterval(() => {
+                    // Cycle images
+                    this.imageIndex += 1;
+                    this.imageIndex = this.imageIndex % srcImg.length;
+                    this.image = srcImg[this.imageIndex];
+                }, IMAGE_INTERVAL * 1000);
+
+                this.imageIndex = 0;
+                this.image = srcImg[this.imageIndex];
+            } else {
+                this.image = this.$props.textSource[this.hotspot].img;
+            }
         }
     }
 }

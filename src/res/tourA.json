@@ -10,5 +10,23 @@
         "en": "Built between 1113 and 1150 by Suryavarman II as his state temple and capital city. It's a huge religious monument measuring 5000 acres in surface.",
         "es": "Construido entre 1113 y 1150 por Suryavarman II como su templo estatal y ciudad capital. Es un enorme monumento religioso que mide 5000 acres de superficie.",
         "img": "./src/res/hotspots/HS_A_IMG_101.png"
+    },
+    "A2": {
+        "name": "ANGKOR THOM",
+        "en": "The last and most enduring capital city of the Khmer Empire. A fortified city, built by Ankgor's greatest King Jayavarman VII who ruled from 1181-1219.",
+        "es": "La última y más duradera capital del Imperio Khmer. Una ciudad fortificada, construida por el mayor rey de Ankgor, Jayavarman VII, que gobernó de 1181 a 1219.",
+        "img": ["./src/res/hotspots/HS_A_IMG_201.png", "./src/res/hotspots/HS_A_IMG_202.png"]
+    },
+    "A3": {
+        "name": "TA PROHM",
+        "en": "Built by Angkor's greatest King Jayavarman VII. He dedicated this temple to his mother. It is 'the kingdom of strangler trees' as it was left untouched.",
+        "es": "Construido por el más grande rey de Angkor, Jayavarman VII. Él dedicó esto templo a su madre. Es \"el reino de los árboles estranguladores\" como lo es se dejó intacto.",
+        "img": ["./src/res/hotspots/HS_A_IMG_301.png", "./src/res/hotspots/HS_A_IMG_302.png"]
+    },
+    "A4": {
+        "name": "BAYON TEMPLE",
+        "en": "Famous for all its towers decorated with stone faces. This temple was dedicated to Buddha.  There are 54 peaks which are said to symbolisze the 54 provinces of the Khmer Empire.",
+        "es": "Famoso por todas sus torres decoradas con caras de piedra. Este templo fue dedicado a Buda. Hay 54 picos que se dice que simbolizan las 54 provincias del Imperio Khmer.",
+        "img": ["./src/res/hotspots/HS_A_IMG_401.png", "./src/res/hotspots/HS_A_IMG_402.png"]
     }
 }

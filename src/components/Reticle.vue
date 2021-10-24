@@ -26,8 +26,11 @@ const MAGNET_RADIUS = 30;
 const MAGNET_SPEED = 2;
 
 const hotspots = [
+    { id: 'idle', x: 0, y: 0 },
     { id: 'A1', x: 896, y: 738 },
-    { id: 'idle', x: 0, y: 0 }
+    { id: 'A2', x: 895, y: 405 },
+    { id: 'A3', x: 1167, y: 589 },
+    { id: 'A4', x: 840, y: 463 }
 ]
 
 export default {
