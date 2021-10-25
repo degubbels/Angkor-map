@@ -50,7 +50,7 @@ export default {
     font-family: KhmerUI;
     /* src: url(./src/res/font/KhmerUI.ttf) format("truetype"),
          url(./src/res/font/KhmerUIb.ttf) format("truetype"); */
-    src: url(./src/res/font/tt0010m_.ttf) format("truetype")
+    src: url(/font/tt0010m_.ttf) format("truetype")
 }
 
 #app {
