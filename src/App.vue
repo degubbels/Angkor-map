@@ -7,6 +7,9 @@
             visor="/visor-A.png"
             @hotspot-found="onHotspotFound"
             :hotspot="aSpot"
+            :idle="this.aIdle"
+            @enter-idle="this.aIdle = true; this.aSpot = 'idle'"
+            @leave-idle="this.aIdle = false"
         ></Reticle>
         <InfoBox :textSource="tourA" :hotspot="aSpot"></InfoBox>
     </div>
@@ -30,7 +33,9 @@ export default {
     data() {
         return {
             aSpot: "idle",
+            aIdle: true,
             tourA: tourA,
+            idleTimer: 0
         }
     },
     methods: {

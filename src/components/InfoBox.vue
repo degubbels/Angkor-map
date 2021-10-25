@@ -87,7 +87,7 @@ export default {
 .imagebox {
     display: block;
     position: absolute;
-    z-index: 20;
+    z-index: 25;
 
     width: 282px;
     height: 152px;
@@ -98,7 +98,7 @@ export default {
 .textbox {
     display: block;
     position: absolute;
-    z-index: 10;
+    z-index: 20;
     top: 124px;
     left: 33px;
 

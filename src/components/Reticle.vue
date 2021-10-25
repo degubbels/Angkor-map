@@ -1,5 +1,5 @@
 <template>
-    <div class="reticle" ref="reticle">
+    <div :class="idle ? 'reticle r-idle' : 'reticle'" ref="reticle">
         <canvas
             class="reticle-canvas"
             ref="reticleCanvas"
@@ -25,6 +25,8 @@ const HOTSPOT_RADIUS = 4;
 const MAGNET_RADIUS = 30;
 const MAGNET_SPEED = 2;
 
+const IDLE_TIME = 3000;
+
 const hotspots = [
     { id: 'idle', x: 0, y: 0 },
     { id: 'A1', x: 896, y: 738 },
@@ -42,9 +44,12 @@ export default {
         'image',
         'visor',
         'hotspot',
+        'idle',
     ],
     emits: [
         'hotspotFound',
+        'enter-idle',
+        'leave-idle'
     ],
     data () {
         return {
@@ -55,10 +60,14 @@ export default {
                 x: 0,
                 y: 0,
             },
-            posX: 0,
-            posY: 0,
+            lastpos: {
+                x: 0,
+                y: 0,
+            },
             rX: 100,
             rY: 70,
+            lastTimestamp: 0,
+            lastMovement: 0,
         };
     },
     methods: {
@@ -127,22 +136,42 @@ export default {
                 if (d < HOTSPOT_RADIUS) {
                     
                     // Prevent continuously reporting the same spot
-                    if (this.hotspot !== spot.id) {
+                    if (this.hotspot !== spot.id && (this.pos.x != this.lastpos.x || this.pos.y != this.lastpos.y)) {
                         this.$emit('hotspotFound', spot.id);
                         Utils.triggerAnim(this.$refs.reticle, "flash", 1);
                     }
                 }
             }
         },
-        updateLoop() {
-            window.requestAnimationFrame(loop)
+        updateLoop(timestamp) {
+            window.requestAnimationFrame(this.updateLoop);
             // WARNING: TODO:FIX: FRAMERATE-DEPENDENT
+            const delta = timestamp - this.lastTimestamp
+
+            // Track idle timer
+            if (this.pos.x != this.lastpos.x || this.pos.y != this.lastpos.y) {
+                this.lastMovement = timestamp;
+
+                if (this.idle) {
+                    this.$emit('leave-idle');
+                    // this.idle = false;
+                }
+            }
+            this.lastpos.x = this.pos.x;
+            this.lastpos.y = this.pos.y;
+
+            if (timestamp - this.lastMovement > IDLE_TIME && !this.idle) {
+                this.$emit('enter-idle');
+                // this.idle = true;
+            }
 
             this.processControllerInput();
             if (this.$refs.reticle) {
                 this.redraw();
             }
             this.checkHotspots();
+
+            this.lastTimestamp = timestamp;
         },
         distance(a, b) {
             return Math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2);
@@ -157,8 +186,7 @@ export default {
         document.addEventListener("mousemove", this.processMouseInput)
 
         // Start interaction loop
-        window.loop = this.updateLoop;
-        loop();
+        window.requestAnimationFrame(this.updateLoop);
     },
 
 }
@@ -167,11 +195,16 @@ export default {
 .reticle {
     position: fixed;
     display: block;
+    z-index: 10;
 
     /* border:1px black solid;
     box-shadow: 5px 5px 10px #1e1e1e;
     border-radius: 20px; */
     border-radius: 16px;
+}
+
+.r-idle {
+    z-index: 8;
 }
 
 .reticle-canvas {
