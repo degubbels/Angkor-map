@@ -63,15 +63,21 @@ export default {
     },
     methods: {
         redraw() {
+            // Check bounds
+            if (this.pos.x < 0) { this.pos.x = 0 }
+            if (this.pos.x > 1920) { this.pos.x = 1920 }
+            if (this.pos.y < 0) { this.pos.y = 0 }
+            if (this.pos.y > 1200) { this.pos.y = 1200 }
+
             // Draw image section for full size map
-            this.ctx.drawImage(this.im, this.pos.x-this.rX+4, this.pos.y-this.rY+4,
+            this.ctx.drawImage(this.im, this.pos.x-this.rX, this.pos.y-this.rY,
                 2*this.rX, 2*this.rY,
                 0, 0,
                 2*this.rX, 2*this.rY);
-
+            
             // Move to position
-            this.$refs.reticle.style.left = this.pos.x - this.rX + "px"
-            this.$refs.reticle.style.top = this.pos.y - this.rY + "px"
+            this.$refs.reticle.style.left = this.pos.x - this.rX - 4 + "px"
+            this.$refs.reticle.style.top = this.pos.y - this.rY - 4 + "px"
         },
         processControllerInput() {
             
