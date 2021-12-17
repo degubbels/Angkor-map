@@ -1,9 +1,9 @@
 <template>
 <div>
-    <img src="/background-labeled.png" class="background">
+    <img src="/background-new.png" class="background">
     <div class="tourcontainer" id="A">
         <Reticle 
-            image="/hotspots-map.png"
+            image="/hotspots-map-new.png"
             visor="/visor-A.png"
             @hotspot-found="onHotspotFound"
             :hotspot="aSpot"
@@ -11,7 +11,7 @@
             @enter-idle="this.aIdle = true; this.aSpot = 'idle'"
             @leave-idle="this.aIdle = false"
         ></Reticle>
-        <InfoBox :textSource="tourA" :hotspot="aSpot"></InfoBox>
+        <InfoBox :textSource="tour" :hotspot="aSpot"></InfoBox>
     </div>
     <!-- <div class="tourcontainer" id="B">
         <InfoBox :textSource=tourA :hotspot="idle"></InfoBox>
@@ -22,7 +22,7 @@
 import { ref } from 'vue';
 import Reticle from './components/Reticle.vue';
 import InfoBox from './components/InfoBox.vue';
-import tourA from './res/tourA.json';
+import tour from './res/tour.json';
 
 // const aSpot = ref("idle");
 export default {
@@ -34,7 +34,7 @@ export default {
         return {
             aSpot: "idle",
             aIdle: true,
-            tourA: tourA,
+            tour: tour,
             idleTimer: 0
         }
     },
@@ -48,8 +48,8 @@ export default {
 <style>
 @font-face {
     font-family: KhmerUI;
-    /* src: url(./src/res/font/KhmerUI.ttf) format("truetype"),
-         url(./src/res/font/KhmerUIb.ttf) format("truetype"); */
+    /* src: url(./src/res/font/KhmerUIb.ttf) format("truetype") */
+         /*url(./src/res/font/KhmerUIb.ttf) format("truetype"); */
     src: url(/font/tt0010m_.ttf) format("truetype")
 }
 

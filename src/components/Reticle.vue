@@ -25,7 +25,7 @@ const HOTSPOT_RADIUS = 4;
 const MAGNET_RADIUS = 30;
 const MAGNET_SPEED = 2;
 
-const IDLE_TIME = 3000;
+const IDLE_TIME = 8000;
 
 const hotspots = [
     { id: 'idle', x: 0, y: 0 },
@@ -36,7 +36,23 @@ const hotspots = [
     { id: 'A5', x: 1298, y: 541 },
     { id: 'A6', x: 944, y: 324 },
     { id: 'A7', x: 984, y: 471 },
-    { id: 'A8', x: 1239, y: 587 }
+    { id: 'A8', x: 1239, y: 587 },
+    { id: 'L1', x: 298, y: 561},
+    { id: 'L2', x: 898, y: 553},
+    { id: 'L3', x: 1570, y: 377},
+    { id: 'L4', x: 817, y: 758},
+    { id: 'L5', x: 1160, y: 304},
+    { id: 'L6', x: 799, y: 483},
+    { id: 'L7', x: 928, y: 888},
+    { id: 'L8', x: 1099, y: 760}
+    // { id: 'L1', x: 281, y: 544},
+    // { id: 'L2', x: 881, y: 536},
+    // { id: 'L3', x: 1553, y: 360},
+    // { id: 'L4', x: 800, y: 741},
+    // { id: 'L5', x: 1143, y: 287},
+    // { id: 'L6', x: 782, y: 466},
+    // { id: 'L7', x: 911, y: 871},
+    // { id: 'L8', x: 1082, y: 743},
 ]
 
 export default {
