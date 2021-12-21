@@ -28,36 +28,29 @@ const MAGNET_SPEED = 2;
 const IDLE_TIME = 8000;
 
 const hotspots = [
-    { id: 'idle', x: 0, y: 0 },
-    { id: 'A1', x: 896, y: 738 },
-    { id: 'A2', x: 895, y: 405 },
-    { id: 'A3', x: 1167, y: 589 },
-    { id: 'A4', x: 840, y: 463 },
-    { id: 'A5', x: 1298, y: 541 },
-    { id: 'A6', x: 944, y: 324 },
-    { id: 'A7', x: 984, y: 471 },
-    { id: 'A8', x: 1239, y: 587 },
-    { id: 'L1', x: 298, y: 561},
-    { id: 'L2', x: 898, y: 553},
-    { id: 'L3', x: 1570, y: 377},
-    { id: 'L4', x: 817, y: 758},
-    { id: 'L5', x: 1160, y: 304},
-    { id: 'L6', x: 799, y: 483},
-    { id: 'L7', x: 928, y: 888},
-    { id: 'L8', x: 1099, y: 760}
-    // { id: 'L1', x: 281, y: 544},
-    // { id: 'L2', x: 881, y: 536},
-    // { id: 'L3', x: 1553, y: 360},
-    // { id: 'L4', x: 800, y: 741},
-    // { id: 'L5', x: 1143, y: 287},
-    // { id: 'L6', x: 782, y: 466},
-    // { id: 'L7', x: 911, y: 871},
-    // { id: 'L8', x: 1082, y: 743},
+    { id: 'idle', x: 0, y: 0 , type: 'none' },
+    { id: 'A1', x: 896, y: 738, type: 'satellite' },
+    { id: 'A2', x: 895, y: 405, type: 'satellite' },
+    { id: 'A3', x: 1167, y: 589, type: 'satellite' },
+    { id: 'A4', x: 840, y: 463, type: 'satellite' },
+    { id: 'A5', x: 1298, y: 541, type: 'satellite' },
+    { id: 'A6', x: 944, y: 324, type: 'satellite' },
+    { id: 'A7', x: 984, y: 471, type: 'satellite' },
+    { id: 'A8', x: 1239, y: 587, type: 'satellite' },
+    { id: 'L1', x: 298, y: 561, type: 'lidar' },
+    { id: 'L2', x: 898, y: 553, type: 'lidar' },
+    { id: 'L3', x: 1570, y: 377, type: 'lidar' },
+    { id: 'L4', x: 817, y: 758, type: 'lidar' },
+    { id: 'L5', x: 1160, y: 304, type: 'lidar' },
+    { id: 'L6', x: 799, y: 483, type: 'lidar' },
+    { id: 'L7', x: 928, y: 888, type: 'lidar' },
+    { id: 'L8', x: 1099, y: 760, type: 'lidar' }
 ]
 
 export default {
     props: [
         'image',
+        'lidarImage',
         'visor',
         'hotspot',
         'idle',
@@ -101,8 +94,8 @@ export default {
                 2*this.rX, 2*this.rY);
             
             // Move to position
-            this.$refs.reticle.style.left = this.pos.x - this.rX - 4 + "px"
-            this.$refs.reticle.style.top = this.pos.y - this.rY - 4 + "px"
+            this.$refs.reticle.style.left = this.pos.x - this.rX - 4 + "px";
+            this.$refs.reticle.style.top = this.pos.y - this.rY - 4 + "px";
         },
         processControllerInput() {
             
@@ -153,10 +146,18 @@ export default {
                     
                     // Prevent continuously reporting the same spot
                     if (this.hotspot !== spot.id && (this.pos.x != this.lastpos.x || this.pos.y != this.lastpos.y)) {
-                        this.$emit('hotspotFound', spot.id);
-                        Utils.triggerAnim(this.$refs.reticle, "flash", 1);
+                        this.hotspotTrigger(spot)
                     }
                 }
+            }
+        },
+        hotspotTrigger(spot) {
+            this.$emit('hotspotFound', spot.id);
+            Utils.triggerAnim(this.$refs.reticle, "flash", 1);
+            if (spot.type === 'lidar') {
+                this.im = this.imLidar;
+            } else {
+                this.im = this.imSat;
             }
         },
         updateLoop(timestamp) {
@@ -195,8 +196,13 @@ export default {
     },
     mounted() {
         this.ctx = this.$refs.reticleCanvas.getContext("2d")
-        this.im = new Image();
-        this.im.src = this.$props.image;
+
+        // Prepare images for both satellite and lidar
+        this.imSat = new Image();
+        this.imSat.src = this.$props.image;
+        this.imLidar = new Image();
+        this.imLidar.src = this.$props.lidarImage;
+        this.im = this.imSat;
 
         this.controller = navigator.getGamepads()[0];
         document.addEventListener("mousemove", this.processMouseInput)

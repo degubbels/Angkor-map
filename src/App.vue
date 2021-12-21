@@ -4,6 +4,7 @@
     <div class="tourcontainer" id="A">
         <Reticle 
             image="/hotspots-map-new.png"
+            lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
             visor="/visor-A.png"
             @hotspot-found="onHotspotFound"
             :hotspot="aSpot"
