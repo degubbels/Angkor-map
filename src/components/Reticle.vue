@@ -18,12 +18,12 @@ import Utils from '/src/Utils.js'
 let r = 100;
 
 const CONTROLLER_DEADZONE = 0.15;
-const MOVEMENT_SPEED = 5;
+const MOVEMENT_SPEED = 30;
 
 const HOTSPOT_RADIUS = 4;
 
 const MAGNET_RADIUS = 30;
-const MAGNET_SPEED = 2;
+const MAGNET_SPEED = 12;
 
 const IDLE_TIME = 8;
 
@@ -77,6 +77,9 @@ export default {
             rY: 70,
             lastTimestamp: 0,
             lastMovement: 0,
+            currspot: 'idle',
+            imSat: null,
+            imLidar: null,
         };
     },
     methods: {
@@ -97,7 +100,7 @@ export default {
             this.$refs.reticle.style.left = this.pos.x - this.rX - 4 + "px";
             this.$refs.reticle.style.top = this.pos.y - this.rY - 4 + "px";
         },
-        processControllerInput() {
+        processControllerInput(delta) {
             
             // TODO: replace polling with listeners
             if (!this.controller) {
@@ -107,11 +110,11 @@ export default {
 
                 // WARNING: this code does not work on chromium (input polling required), only firefox is tested
                 if (!isNaN(this.controller.axes[0]) && Math.abs(this.controller.axes[0]) > CONTROLLER_DEADZONE) {
-                    this.pos.x += this.controller.axes[0] * MOVEMENT_SPEED;
+                    this.pos.x += this.controller.axes[0] * MOVEMENT_SPEED * delta;
                 }
 
                 if (!isNaN(this.controller.axes[1]) && Math.abs(this.controller.axes[1]) > CONTROLLER_DEADZONE) {
-                    this.pos.y += this.controller.axes[1] * MOVEMENT_SPEED;
+                    this.pos.y += this.controller.axes[1] * MOVEMENT_SPEED * delta;
                 }
             }
         },
@@ -119,7 +122,7 @@ export default {
             this.pos.x = e.x;
             this.pos.y = e.y;
         },
-        checkHotspots() {
+        checkHotspots(delta) {
 
             for (const spot of hotspots) {
                 const d = this.distance(this.pos, spot);
@@ -127,18 +130,19 @@ export default {
                     
                     const dx = spot.x - this.pos.x;
                     // Prevent overshooting
-                    if (Math.abs(dx) < MAGNET_SPEED) {
+                    if (Math.abs(dx) < MAGNET_SPEED * delta) {
                         this.pos.x += dx;
                     } else {
-                        this.pos.x += MAGNET_SPEED * Math.sign(dx);
+                        this.pos.x += MAGNET_SPEED * Math.sign(dx) * delta;
                     }
 
                     const dy = spot.y - this.pos.y;
                     // Prevent overshooting
-                    if (Math.abs(dy) < MAGNET_SPEED) {
+                    if (Math.abs(dy) < MAGNET_SPEED * delta) {
                         this.pos.y += dy;
                     } else {
-                        this.pos.y += MAGNET_SPEED * Math.sign(dy);
+                        this.pos.y += MAGNET_SPEED * Math.sign(dy) * delta;
+                        console.log(delta)
                     }
                 }
 
@@ -163,16 +167,20 @@ export default {
         },
         onIdle() {
             this.im = this.imSat;
-            this.currSpot = hotspots.find(spot => spot.id === 'idle');
+            this.currSpot = 'idle'
+            this.redraw()
         },
         updateLoop(timestamp) {
             window.requestAnimationFrame(this.updateLoop);
             // WARNING: TODO:FIX: FRAMERATE-DEPENDENT
-            const delta = timestamp - this.lastTimestamp
+            const delta = (timestamp - this.lastTimestamp) / 100;
+
+            let moved = false;
 
             // Track idle timer
             if (this.pos.x != this.lastpos.x || this.pos.y != this.lastpos.y) {
                 this.lastMovement = timestamp;
+                moved = true;
 
                 if (this.idle) {
                     this.$emit('leave-idle');
@@ -190,11 +198,11 @@ export default {
                 }
             }
 
-            this.processControllerInput();
-            if (this.$refs.reticle) {
+            this.processControllerInput(delta);
+            if (this.$refs.reticle && moved) {
                 this.redraw();
             }
-            this.checkHotspots();
+            this.checkHotspots(delta);
 
             this.lastTimestamp = timestamp;
         },
