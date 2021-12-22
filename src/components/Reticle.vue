@@ -25,7 +25,7 @@ const HOTSPOT_RADIUS = 4;
 const MAGNET_RADIUS = 30;
 const MAGNET_SPEED = 2;
 
-const IDLE_TIME = 8000;
+const IDLE_TIME = 8;
 
 const hotspots = [
     { id: 'idle', x: 0, y: 0 , type: 'none' },
@@ -160,6 +160,9 @@ export default {
                 this.im = this.imSat;
             }
         },
+        onIdle() {
+            this.im = this.imSat;
+        },
         updateLoop(timestamp) {
             window.requestAnimationFrame(this.updateLoop);
             // WARNING: TODO:FIX: FRAMERATE-DEPENDENT
@@ -177,8 +180,9 @@ export default {
             this.lastpos.x = this.pos.x;
             this.lastpos.y = this.pos.y;
 
-            if (timestamp - this.lastMovement > IDLE_TIME && !this.idle) {
+            if (timestamp - this.lastMovement > IDLE_TIME * 1000 && !this.idle) {
                 this.$emit('enter-idle');
+                this.onIdle();
                 // this.idle = true;
             }
 

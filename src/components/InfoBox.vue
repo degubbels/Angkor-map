@@ -12,7 +12,7 @@
 </template>z
 <script>
 
-const IMAGE_INTERVAL = 5;
+const IMAGE_INTERVAL = 4;
 
 export default {
     props: [
