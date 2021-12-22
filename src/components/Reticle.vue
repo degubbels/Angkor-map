@@ -77,7 +77,7 @@ export default {
             rY: 70,
             lastTimestamp: 0,
             lastMovement: 0,
-            currspot: 'idle',
+            currSpot: 'idle',
             imSat: null,
             imLidar: null,
         };
@@ -142,7 +142,6 @@ export default {
                         this.pos.y += dy;
                     } else {
                         this.pos.y += MAGNET_SPEED * Math.sign(dy) * delta;
-                        console.log(delta)
                     }
                 }
 
