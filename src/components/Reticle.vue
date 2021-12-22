@@ -102,11 +102,13 @@ export default {
         },
         processControllerInput(delta) {
             
-            // TODO: replace polling with listeners
-            if (!this.controller) {
-                this.controller = navigator.getGamepads()[0];
+            this.controller = navigator.getGamepads()[0];
 
-            } else {
+            // // TODO: replace polling with listeners
+            // if (!this.controller) {
+            //     this.controller = navigator.getGamepads()[0];
+
+            if (this.controller) {
 
                 // WARNING: this code does not work on chromium (input polling required), only firefox is tested
                 if (!isNaN(this.controller.axes[0]) && Math.abs(this.controller.axes[0]) > CONTROLLER_DEADZONE) {
