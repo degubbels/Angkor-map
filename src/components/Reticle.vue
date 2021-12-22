@@ -3,8 +3,8 @@
         <canvas
             class="reticle-canvas"
             ref="reticleCanvas"
-            width="200"
-            height="140"
+            :width="orientation === 'horizontal' ? 232 : 172"
+            :height="orientation === 'horizontal' ? 172 : 232"
             >
         </canvas>
         <img class="visor"
@@ -54,6 +54,8 @@ export default {
         'visor',
         'hotspot',
         'idle',
+        'gamepad',
+        'orientation'
     ],
     emits: [
         'hotspotFound',
@@ -73,8 +75,8 @@ export default {
                 x: 0,
                 y: 0,
             },
-            rX: 100,
-            rY: 70,
+            rX: 116,
+            rY: 86,
             lastTimestamp: 0,
             lastMovement: 0,
             currSpot: 'idle',
@@ -102,15 +104,10 @@ export default {
         },
         processControllerInput(delta) {
             
-            this.controller = navigator.getGamepads()[0];
-
-            // // TODO: replace polling with listeners
-            // if (!this.controller) {
-            //     this.controller = navigator.getGamepads()[0];
+            this.controller = navigator.getGamepads()[this.$props.gamepad];
 
             if (this.controller) {
 
-                // WARNING: this code does not work on chromium (input polling required), only firefox is tested
                 if (!isNaN(this.controller.axes[0]) && Math.abs(this.controller.axes[0]) > CONTROLLER_DEADZONE) {
                     this.pos.x += this.controller.axes[0] * MOVEMENT_SPEED * delta;
                 }
@@ -221,6 +218,14 @@ export default {
         this.imLidar.src = this.$props.lidarImage;
         this.im = this.imSat;
 
+        if (this.$props.orientation === 'horizontal') {
+            this.rX = 116;
+            this.rY = 86;
+        } else {
+            this.rX = 86;
+            this.rY = 116;
+        }
+
         this.controller = navigator.getGamepads()[0];
         document.addEventListener("mousemove", this.processMouseInput)
 
@@ -239,7 +244,16 @@ export default {
     /* border:1px black solid;
     box-shadow: 5px 5px 10px #1e1e1e;
     border-radius: 20px; */
-    border-radius: 16px;
+}
+
+.reticle-a {
+    width: 240px;
+    height: 180px;
+}
+
+.reticle-b {
+    width: 180px;
+    height: 240px;
 }
 
 .r-idle {
@@ -252,11 +266,31 @@ export default {
     padding: 4px;
 }
 
+.reticle-a .reticle-canvas {
+    width: 232px;
+    height: 172px;
+    border-radius: 12px;
+}
+
+.reticle-b .reticle-canvas {
+    width: 172px;
+    height: 232px;
+    border-radius: 86px;
+}
+
 .visor {
     position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    top: 0;   
+}
+
+.reticle-a .visor {
+    width: 240px;
+    height: 180px;
+}
+
+.reticle-b .visor {
+    width: 180px;
+    height: 240px;
 }
 
 .anim-flash {

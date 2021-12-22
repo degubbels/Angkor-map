@@ -6,13 +6,32 @@
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
             visor="/visor-A.png"
-            @hotspot-found="onHotspotFound"
+            :gamepad=1
+            @hotspot-found="onAHotspotFound"
             :hotspot="aSpot"
             :idle="this.aIdle"
             @enter-idle="this.aIdle = true; this.aSpot = 'idle'"
             @leave-idle="this.aIdle = false"
+            class="reticle-a"
+            orientation='horizontal'
         ></Reticle>
         <InfoBox :textSource="tour" :hotspot="aSpot"></InfoBox>
+    </div>
+    <div class="tourcontainer" id="B">
+        <Reticle 
+            image="/hotspots-map-new.png"
+            lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
+            visor="/visor-B.png"
+            :gamepad=0
+            @hotspot-found="onBHotspotFound"
+            :hotspot="bSpot"
+            :idle="this.bIdle"
+            @enter-idle="this.bIdle = true; this.bSpot = 'idle'"
+            @leave-idle="this.bIdle = false"
+            class='reticle-b'
+            orientation='vertical'
+        ></Reticle>
+        <InfoBox :textSource="tour" :hotspot="bSpot"></InfoBox>
     </div>
     <!-- <div class="tourcontainer" id="B">
         <InfoBox :textSource=tourA :hotspot="idle"></InfoBox>
@@ -35,13 +54,18 @@ export default {
         return {
             aSpot: "idle",
             aIdle: true,
+            bSpot: "idle",
+            bIdle: true,
             tour: tour,
             idleTimer: 0
         }
     },
     methods: {
-        onHotspotFound(id) {
+        onAHotspotFound(id) {
             this.aSpot = id;
+        },
+        onBHotspotFound(id) {
+            this.bSpot = id;
         }
     }
 }
