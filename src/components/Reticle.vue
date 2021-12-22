@@ -153,6 +153,7 @@ export default {
         },
         hotspotTrigger(spot) {
             this.$emit('hotspotFound', spot.id);
+            this.currSpot = spot.id;
             Utils.triggerAnim(this.$refs.reticle, "flash", 1);
             if (spot.type === 'lidar') {
                 this.im = this.imLidar;
@@ -162,6 +163,7 @@ export default {
         },
         onIdle() {
             this.im = this.imSat;
+            this.currSpot = hotspots.find(spot => spot.id === 'idle');
         },
         updateLoop(timestamp) {
             window.requestAnimationFrame(this.updateLoop);
@@ -181,9 +183,11 @@ export default {
             this.lastpos.y = this.pos.y;
 
             if (timestamp - this.lastMovement > IDLE_TIME * 1000 && !this.idle) {
-                this.$emit('enter-idle');
-                this.onIdle();
-                // this.idle = true;
+                if (this.distance(hotspots.find(spot => spot.id === this.currSpot), this.pos) > HOTSPOT_RADIUS) {
+                    this.$emit('enter-idle');
+                    this.onIdle();
+                    // this.idle = true;
+                }
             }
 
             this.processControllerInput();
