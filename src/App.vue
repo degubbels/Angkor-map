@@ -17,7 +17,7 @@
         ></Reticle>
         <InfoBox :textSource="tour" :hotspot="aSpot"></InfoBox>
     </div>
-    <div class="tourcontainer" id="B">
+    <!-- <div class="tourcontainer" id="B">
         <Reticle 
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
@@ -44,11 +44,11 @@
             :idle="this.cIdle"
             @enter-idle="this.cIdle = true; this.cSpot = 'idle'"
             @leave-idle="this.cIdle = false"
-            class='reticle-b'
+            class='reticle-c'
             orientation='vertical'
         ></Reticle>
         <InfoBox :textSource="tour" :hotspot="bSpot"></InfoBox>
-    </div>
+    </div> -->
     <!-- <div class="tourcontainer" id="B">
         <InfoBox :textSource=tourA :hotspot="idle"></InfoBox>
     </div> -->

@@ -2,7 +2,14 @@
     <div :class="idle ? 'reticle r-idle' : 'reticle'" ref="reticle">
         <canvas
             class="reticle-canvas"
-            ref="reticleCanvas"
+            ref="reticleCanvasSat"
+            :width="orientation === 'horizontal' ? 232 : 172"
+            :height="orientation === 'horizontal' ? 172 : 232"
+            >
+        </canvas>
+        <canvas
+            class="reticle-canvas"
+            ref="reticleCanvasLidar"
             :width="orientation === 'horizontal' ? 232 : 172"
             :height="orientation === 'horizontal' ? 172 : 232"
             >
@@ -64,8 +71,8 @@ export default {
     ],
     data () {
         return {
-            ctx: 0,
-            im: null,
+            ctxSat: 0,
+            ctxLidar: 0,
             controller: null,
             pos: {
                 x: 0,
@@ -82,6 +89,8 @@ export default {
             currSpot: 'idle',
             imSat: null,
             imLidar: null,
+            renderLayer: 'satellite',
+            renderTimeout: null,
         };
     },
     methods: {
@@ -93,10 +102,19 @@ export default {
             if (this.pos.y > 1200) { this.pos.y = 1200 }
 
             // Draw image section for full size map
-            this.ctx.drawImage(this.im, this.pos.x-this.rX, this.pos.y-this.rY,
-                2*this.rX, 2*this.rY,
-                0, 0,
-                2*this.rX, 2*this.rY);
+            if (this.renderLayer === 'satellite' || this.renderLayer === 'both') {
+                this.ctxSat.drawImage(this.imSat, this.pos.x-this.rX, this.pos.y-this.rY,
+                    2*this.rX, 2*this.rY,
+                    0, 0,
+                    2*this.rX, 2*this.rY);
+            }
+
+            if (this.renderLayer === 'lidar' || this.renderLayer === 'both') {
+                this.ctxLidar.drawImage(this.imLidar, this.pos.x-this.rX, this.pos.y-this.rY,
+                    2*this.rX, 2*this.rY,
+                    0, 0,
+                    2*this.rX, 2*this.rY);
+            }
             
             // Move to position
             this.$refs.reticle.style.left = this.pos.x - this.rX - 4 + "px";
@@ -157,16 +175,29 @@ export default {
             this.$emit('hotspotFound', spot.id);
             this.currSpot = spot.id;
             Utils.triggerAnim(this.$refs.reticle, "flash", 1);
-            if (spot.type === 'lidar') {
-                this.im = this.imLidar;
-            } else {
-                this.im = this.imSat;
-            }
+
+            this.switchRenderLayer(spot.type);
         },
         onIdle() {
-            this.im = this.imSat;
-            this.currSpot = 'idle'
-            this.redraw()
+            this.currSpot = 'idle';
+            this.redraw();
+
+            this.switchRenderLayer('satellite');
+        },
+        switchRenderLayer(layer) {
+            this.renderLayer = 'both'
+
+            // Render only relevant layer after transition animation
+            clearTimeout(this.renderTimeout);
+            this.renderTimeout = setTimeout(() => {
+                this.renderLayer = layer
+            }, 2000);
+
+            if (layer === 'satellite') {
+                this.$refs.reticleCanvasLidar.classList.add("hidden");
+            } else {
+                this.$refs.reticleCanvasLidar.classList.remove("hidden");
+            }
         },
         updateLoop(timestamp) {
             window.requestAnimationFrame(this.updateLoop);
@@ -209,14 +240,14 @@ export default {
         }
     },
     mounted() {
-        this.ctx = this.$refs.reticleCanvas.getContext("2d")
+        this.ctxSat = this.$refs.reticleCanvasSat.getContext("2d")
+        this.ctxLidar = this.$refs.reticleCanvasLidar.getContext("2d")
 
         // Prepare images for both satellite and lidar
         this.imSat = new Image();
         this.imSat.src = this.$props.image;
         this.imLidar = new Image();
         this.imLidar.src = this.$props.lidarImage;
-        this.im = this.imSat;
 
         if (this.$props.orientation === 'horizontal') {
             this.rX = 116;
@@ -225,6 +256,8 @@ export default {
             this.rX = 86;
             this.rY = 116;
         }
+
+        this.redraw();
 
         this.controller = navigator.getGamepads()[0];
         document.addEventListener("mousemove", this.processMouseInput)
@@ -267,8 +300,12 @@ export default {
 
 .reticle-canvas {
     display: block;
+    opacity: 1;
+    position: absolute;
+
     border-radius: inherit;
     padding: 4px;
+    transition: opacity 1s;
 }
 
 .reticle-a .reticle-canvas {
@@ -307,6 +344,23 @@ export default {
 .reticle-c .visor {
     width: 180px;
     height: 240px;
+}
+
+.anim-fade-out {
+    animation: fade 2s forwards;
+}
+
+.anim-fade-in {
+    animation: fade 2s reverse;
+}
+
+@keyframes fade {
+    0% { opacity: 1!important; };
+    100% {opacity: 0!important; };
+}
+
+.hidden {
+    opacity: 0;
 }
 
 .anim-flash {
