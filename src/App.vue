@@ -6,7 +6,7 @@
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
             visor="/visor-A.png"
-            :gamepad=1
+            :gamepad=0
             @hotspot-found="onAHotspotFound"
             :hotspot="aSpot"
             :idle="this.aIdle"
@@ -22,12 +22,28 @@
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
             visor="/visor-B.png"
-            :gamepad=0
+            :gamepad=1
             @hotspot-found="onBHotspotFound"
             :hotspot="bSpot"
             :idle="this.bIdle"
             @enter-idle="this.bIdle = true; this.bSpot = 'idle'"
             @leave-idle="this.bIdle = false"
+            class='reticle-b'
+            orientation='vertical'
+        ></Reticle>
+        <InfoBox :textSource="tour" :hotspot="bSpot"></InfoBox>
+    </div>
+    <div class="tourcontainer" id="C">
+        <Reticle 
+            image="/hotspots-map-new.png"
+            lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
+            visor="/visor-C.png"
+            :gamepad=2
+            @hotspot-found="onCHotspotFound"
+            :hotspot="cSpot"
+            :idle="this.cIdle"
+            @enter-idle="this.cIdle = true; this.cSpot = 'idle'"
+            @leave-idle="this.cIdle = false"
             class='reticle-b'
             orientation='vertical'
         ></Reticle>
@@ -56,6 +72,8 @@ export default {
             aIdle: true,
             bSpot: "idle",
             bIdle: true,
+            cSpot: "idle",
+            cIdle: true,
             tour: tour,
             idleTimer: 0
         }
@@ -66,6 +84,9 @@ export default {
         },
         onBHotspotFound(id) {
             this.bSpot = id;
+        },
+        onCHotspotFound(id) {
+            this.cSpot = id;
         }
     }
 }

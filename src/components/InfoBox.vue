@@ -137,4 +137,13 @@ export default {
     color: #00ccff;
     transform: rotate(90deg);
 }
+
+#C > .infobox {
+
+    top: 1009px;
+    left: 1414px;
+
+    color: #66ffcc;
+    transform: rotate(-90deg);
+}
 </style>

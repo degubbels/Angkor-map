@@ -256,6 +256,11 @@ export default {
     height: 240px;
 }
 
+.reticle-c {
+    width: 180px;
+    height: 240px;
+}
+
 .r-idle {
     z-index: 8;
 }
@@ -278,6 +283,12 @@ export default {
     border-radius: 86px;
 }
 
+.reticle-c .reticle-canvas {
+    width: 172px;
+    height: 232px;
+    border-radius: 86px;
+}
+
 .visor {
     position: absolute;
     top: 0;   
@@ -289,6 +300,11 @@ export default {
 }
 
 .reticle-b .visor {
+    width: 180px;
+    height: 240px;
+}
+
+.reticle-c .visor {
     width: 180px;
     height: 240px;
 }
