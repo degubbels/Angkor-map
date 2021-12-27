@@ -7,10 +7,14 @@
 #SingleInstance
 #Include %A_ScriptDir%\Lib\BIGA\export.ahk
 
+;To make x,y movements look nice
+SetFormat, FloatFast, 3.0
+
 ; Create GUI
-Gui, New
+Gui, +Resize -MaximizeBox -MinimizeBox +LastFound
 ; Create List view for input events with width=600px, 10rows
 Gui, Add, ListView, r5 w600 vDeviceInputList, Handle | X | Y | Device Name
+GuiHandle := WinExist()
 Gui, Show
 
 ; Load BIGA Lib
@@ -25,8 +29,8 @@ AHKHID_UseConstants()
 OnMessage(0x00FF, "InputMsg")
 
 AHKHID_AddRegister(1)
-; UsagePage 1 Usage 2 for mouse (no flags set)
-AHKHID_AddRegister(1, 2, 0)
+; UsagePage 1 Usage 2 for mouse. Inputsink when specified a gui handle allows the manager to capture background input
+AHKHID_AddRegister(1, 2, GuiHandle, RIDEV_INPUTSINK)
 
 AHKHID_Register()
 return
