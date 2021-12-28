@@ -36,6 +36,7 @@ AHKHID_Register()
 
 
 wdriver := ComObjCreate("Selenium.ChromeDriver")
+wdriver.SetCapability("goog:chromeOptions", "{""excludeSwitches"":[""enable-automation""]}")
 wdriver.Start("chrome", "http://localhost:3000")
 wdriver.Get("http://localhost:3000")
 
@@ -68,7 +69,10 @@ InputMsg(wParam, lParam) {
     }
 
     ; Send data to browser by executing js snippets
-    wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceivex')[0].value = " + x)
+    if (i == 2) {
+        wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-x')[0].value = " + x)
+        wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-y')[0].value = " + y)
+    }
 
     if (i == 1) {
         ; wd.execute("alert('wd hid input')")

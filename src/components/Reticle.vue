@@ -1,6 +1,9 @@
 <template>
     <div :class="idle ? 'reticle r-idle' : 'reticle'" ref="reticle">
-        <input class="posreceivex" value="0">
+        <div class="databus" v-show="false">
+            <input class="posreceive-x" ref="posreceivex" value="0">
+            <input class="posreceive-y" ref="posreceivey" value="0">
+        </div>
         <canvas
             class="reticle-canvas"
             ref="reticleCanvasSat"
@@ -136,6 +139,10 @@ export default {
                 }
             }
         },
+        processIMInput(delta){
+            this.pos.x += this.$refs.posreceivex.value * MOVEMENT_SPEED * delta;
+            this.pos.y += this.$refs.posreceivey.value * MOVEMENT_SPEED * delta;
+        },
         processMouseInput(e) {
             this.pos.x = e.x;
             this.pos.y = e.y;
@@ -229,6 +236,7 @@ export default {
             }
 
             this.processControllerInput(delta);
+            this.processIMInput(delta);
             if (this.$refs.reticle && moved) {
                 this.redraw();
             }
@@ -261,7 +269,7 @@ export default {
         this.redraw();
 
         this.controller = navigator.getGamepads()[0];
-        document.addEventListener("mousemove", this.processMouseInput)
+        // document.addEventListener("mousemove", this.processMouseInput)
 
         // Start interaction loop
         window.requestAnimationFrame(this.updateLoop);
