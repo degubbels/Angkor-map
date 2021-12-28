@@ -13,7 +13,7 @@ SetFormat, FloatFast, 3.0
 ; Create GUI
 Gui, +Resize -MaximizeBox -MinimizeBox +LastFound
 ; Create List view for input events with width=600px, 10rows
-Gui, Add, ListView, r5 w600 vDeviceInputList, Handle | X | Y | Device Name
+Gui, Add, ListView, r5 w600 vDeviceInputList, # | Handle | X | Y | Device Name
 GuiHandle := WinExist()
 Gui, Show
 
@@ -33,9 +33,17 @@ AHKHID_AddRegister(1)
 AHKHID_AddRegister(1, 2, GuiHandle, RIDEV_INPUTSINK)
 
 AHKHID_Register()
+
+
+wdriver := ComObjCreate("Selenium.ChromeDriver")
+wdriver.Start("chrome", "http://localhost:3000")
+wdriver.Get("http://localhost:3000")
+
 return
 
+
 GuiClose:
+; wd.delete()
 ExitApp
 
 
@@ -53,9 +61,16 @@ InputMsg(wParam, lParam) {
     If (i == -1) {
         ; Register new device
         InputDevices.push(h)
-        LV_Add("", h, x, y, devinfo)
+        LV_Add("", i, h, x, y, devinfo)
     } Else {
         
-        LV_Modify(i,, h, x, y, devinfo)
+        LV_Modify(i,, i, h, x, y, devinfo)
+    }
+
+    ; Send data to browser by executing js snippets
+    wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceivex')[0].value = " + x)
+
+    if (i == 1) {
+        ; wd.execute("alert('wd hid input')")
     }
 }

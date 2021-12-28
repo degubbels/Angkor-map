@@ -1,5 +1,6 @@
 <template>
     <div :class="idle ? 'reticle r-idle' : 'reticle'" ref="reticle">
+        <input class="posreceivex" value="0">
         <canvas
             class="reticle-canvas"
             ref="reticleCanvasSat"
@@ -240,8 +241,8 @@ export default {
         }
     },
     mounted() {
-        this.ctxSat = this.$refs.reticleCanvasSat.getContext("2d")
-        this.ctxLidar = this.$refs.reticleCanvasLidar.getContext("2d")
+        this.ctxSat = this.$refs.reticleCanvasSat.getContext("2d");
+        this.ctxLidar = this.$refs.reticleCanvasLidar.getContext("2d");
 
         // Prepare images for both satellite and lidar
         this.imSat = new Image();

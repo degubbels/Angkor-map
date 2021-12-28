@@ -49,9 +49,6 @@
         ></Reticle>
         <InfoBox :textSource="tour" :hotspot="bSpot"></InfoBox>
     </div> -->
-    <!-- <div class="tourcontainer" id="B">
-        <InfoBox :textSource=tourA :hotspot="idle"></InfoBox>
-    </div> -->
 </div>
 </template>
 <script>
@@ -87,7 +84,7 @@ export default {
         },
         onCHotspotFound(id) {
             this.cSpot = id;
-        }
+        },
     }
 }
 </script>
