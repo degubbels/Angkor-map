@@ -71,7 +71,9 @@ InputMsg(wParam, lParam) {
     ; Send data to browser by executing js snippets
     if (i == 2) {
         wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-x')[0].value = " + x)
-        wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-y')[0].value = " + y)
+        wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-y')[0].value = " + y )
+        wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-pending')[0].click()")
+        wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-pending')[0].value += 1")
     }
 
     if (i == 1) {

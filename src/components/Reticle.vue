@@ -3,6 +3,7 @@
         <div class="databus" v-show="false">
             <input class="posreceive-x" ref="posreceivex" value="0">
             <input class="posreceive-y" ref="posreceivey" value="0">
+            <div @click="processIMInput" class="posreceive-pending" ref="posreceivepending" value=0>pen</div>
         </div>
         <canvas
             class="reticle-canvas"
@@ -21,7 +22,7 @@
         <img class="visor"
             ref="visor"
             :src=visor>
-    </div>
+    </div>    
 </template>
 <script>
 import Utils from '/src/Utils.js'
@@ -29,12 +30,12 @@ import Utils from '/src/Utils.js'
 let r = 100;
 
 const CONTROLLER_DEADZONE = 0.15;
-const MOVEMENT_SPEED = 30;
+const MOVEMENT_SPEED = 3;
 
 const HOTSPOT_RADIUS = 4;
 
-const MAGNET_RADIUS = 30;
-const MAGNET_SPEED = 12;
+const MAGNET_RADIUS = 10;
+const MAGNET_SPEED = 6;
 
 const IDLE_TIME = 8;
 
@@ -139,9 +140,13 @@ export default {
                 }
             }
         },
-        processIMInput(delta){
-            this.pos.x += this.$refs.posreceivex.value * MOVEMENT_SPEED * delta;
-            this.pos.y += this.$refs.posreceivey.value * MOVEMENT_SPEED * delta;
+        processIMInput(delta) {
+            // if (this.$refs.posreceivepending.value === 'true') {
+            this.pos.x += Math.sign(this.$refs.posreceivex.value) * MOVEMENT_SPEED;
+            this.pos.y += Math.sign(this.$refs.posreceivey.value) * MOVEMENT_SPEED;
+            console.log(this.$refs.posreceivepending.value);
+            this.$refs.posreceivepending.value = 0;
+            // }
         },
         processMouseInput(e) {
             this.pos.x = e.x;
@@ -236,7 +241,11 @@ export default {
             }
 
             this.processControllerInput(delta);
-            this.processIMInput(delta);
+            // if (this.$refs.posreceivepending.value === 'true') {
+            //     this.processIMInput(delta);
+            // }
+
+            // this.processIMInput(delta);
             if (this.$refs.reticle && moved) {
                 this.redraw();
             }
@@ -270,6 +279,7 @@ export default {
 
         this.controller = navigator.getGamepads()[0];
         // document.addEventListener("mousemove", this.processMouseInput)
+        
 
         // Start interaction loop
         window.requestAnimationFrame(this.updateLoop);
@@ -301,6 +311,17 @@ export default {
 .reticle-c {
     width: 180px;
     height: 240px;
+}
+
+.databus {
+    display: flex;
+    flex-direction: row;
+
+    width: 240px;
+}
+
+.databus input {
+    width: 30%;
 }
 
 .r-idle {
