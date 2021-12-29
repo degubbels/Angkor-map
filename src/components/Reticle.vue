@@ -1,8 +1,8 @@
 <template>
     <div :class="idle ? 'reticle r-idle' : 'reticle'" ref="reticle">
         <div class="databus" v-show="false">
-            <input class="posreceive-x" ref="posreceivex" value="0">
-            <input class="posreceive-y" ref="posreceivey" value="0">
+            <div class="posreceive-x" ref="posreceivex" value=0 count=0></div>
+            <div class="posreceive-y" ref="posreceivey" value=0 count=0></div>
             <div @click="processIMInput" class="posreceive-pending" ref="posreceivepending" value=0>pen</div>
         </div>
         <canvas
@@ -30,12 +30,12 @@ import Utils from '/src/Utils.js'
 let r = 100;
 
 const CONTROLLER_DEADZONE = 0.15;
-const MOVEMENT_SPEED = 3;
+const MOVEMENT_SPEED = 15;
 
 const HOTSPOT_RADIUS = 4;
 
-const MAGNET_RADIUS = 10;
-const MAGNET_SPEED = 6;
+const MAGNET_RADIUS = 20;
+const MAGNET_SPEED = 8;
 
 const IDLE_TIME = 8;
 
@@ -96,6 +96,9 @@ export default {
             imLidar: null,
             renderLayer: 'satellite',
             renderTimeout: null,
+            currIX: 0,
+            currIY: 0,
+            newInput: false,
         };
     },
     methods: {
@@ -141,12 +144,33 @@ export default {
             }
         },
         processIMInput(delta) {
-            // if (this.$refs.posreceivepending.value === 'true') {
-            this.pos.x += Math.sign(this.$refs.posreceivex.value) * MOVEMENT_SPEED;
-            this.pos.y += Math.sign(this.$refs.posreceivey.value) * MOVEMENT_SPEED;
-            console.log(this.$refs.posreceivepending.value);
-            this.$refs.posreceivepending.value = 0;
+            // // if (this.$refs.posreceivepending.value === 'true') {
+                // console.log(this.$refs.posreceivepending.value);
+            // this.$refs.posreceivepending.value = 0;
             // }
+            // if (this.$refs.posreceivex.getAttribute('count') > 0) {
+            //     this.currIX = this.$refs.posreceivex.getAttribute('value');
+            //     this.$refs.posreceivex.setAttribute('count', 0)
+            // } else {
+            //     this.currIX = 0;
+            // }
+
+            // if (this.$refs.posreceivey.getAttribute('count') > 0) {
+            //     this.currIY = this.$refs.posreceivey.getAttribute('value');
+            //     this.$refs.posreceivey.setAttribute('count', 0)
+            // } else {
+            //     this.currIY = 0;
+            // }
+            if (!this.newInput) {
+                this.currIX = 0;
+                this.currIY = 0;
+            } else {
+                this.newInput = false;
+            }
+
+            this.pos.x += this.currIX * MOVEMENT_SPEED * delta;
+            this.pos.y += this.currIY * MOVEMENT_SPEED * delta;
+            
         },
         processMouseInput(e) {
             this.pos.x = e.x;
@@ -212,6 +236,19 @@ export default {
                 this.$refs.reticleCanvasLidar.classList.remove("hidden");
             }
         },
+        onKey(e) {
+            let code = e.key.charCodeAt(0).toString(16).toUpperCase();
+            // console.log(code);
+            let x = parseInt(code[2], 16)
+            let y = parseInt(code[3], 16)
+
+            if (x >= 8) { x -= 15 }
+            if (y >= 8) { y -= 15 }
+            this.currIX = x;
+            this.currIY = y;
+            this.newInput = true;
+            // console.log(x);
+        },
         updateLoop(timestamp) {
             window.requestAnimationFrame(this.updateLoop);
             // WARNING: TODO:FIX: FRAMERATE-DEPENDENT
@@ -242,9 +279,9 @@ export default {
 
             this.processControllerInput(delta);
             // if (this.$refs.posreceivepending.value === 'true') {
-            //     this.processIMInput(delta);
-            // }
-
+                // }
+            this.processIMInput(delta);
+            document.addEventListener('keydown', this.onKey);
             // this.processIMInput(delta);
             if (this.$refs.reticle && moved) {
                 this.redraw();
