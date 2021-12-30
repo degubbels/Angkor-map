@@ -89,6 +89,11 @@ export default {
 }
 </script>
 <style>
+/* Hide Mouse cursor */
+* {
+    cursor: none;
+}
+
 @font-face {
     font-family: KhmerUI;
     /* src: url(./src/res/font/KhmerUIb.ttf) format("truetype") */

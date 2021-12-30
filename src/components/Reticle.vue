@@ -29,8 +29,8 @@ const MOVEMENT_SPEED = 15;
 
 const HOTSPOT_RADIUS = 4;
 
-const MAGNET_RADIUS = 20;
-const MAGNET_SPEED = 8;
+const MAGNET_RADIUS = 32;
+const MAGNET_SPEED = 6;
 
 const IDLE_TIME = 8;
 
