@@ -17,20 +17,17 @@
         <img class="visor"
             ref="visor"
             :src=visor>
-    </div>
+    </div>    
 </template>
 <script>
 import Utils from '/src/Utils.js'
 
-let r = 100;
-
-const CONTROLLER_DEADZONE = 0.15;
-const MOVEMENT_SPEED = 30;
+const MOVEMENT_SPEED = 8;
 
 const HOTSPOT_RADIUS = 4;
 
-const MAGNET_RADIUS = 30;
-const MAGNET_SPEED = 12;
+const MAGNET_RADIUS = 32;
+const MAGNET_SPEED = 4;
 
 const IDLE_TIME = 8;
 
@@ -61,7 +58,7 @@ export default {
         'visor',
         'hotspot',
         'idle',
-        'gamepad',
+        'deviceID',
         'orientation'
     ],
     emits: [
@@ -71,19 +68,18 @@ export default {
     ],
     data () {
         return {
-            ctxSat: 0,
-            ctxLidar: 0,
-            controller: null,
-            pos: {
+            ctxSat: 0,      // Drawing context for satellite render layer
+            ctxLidar: 0,    // Drawing context for lidar render layer
+            pos: {  // Current position
                 x: 0,
                 y: 0,
-            },
+            },      // Position last frome
             lastpos: {
                 x: 0,
                 y: 0,
             },
-            rX: 116,
-            rY: 86,
+            rX: 116,        // Reticle radius on x-axis
+            rY: 86,         // Reticle radius on x-axis
             lastTimestamp: 0,
             lastMovement: 0,
             currSpot: 'idle',
@@ -91,9 +87,13 @@ export default {
             imLidar: null,
             renderLayer: 'satellite',
             renderTimeout: null,
+            currIX: 0,
+            currIY: 0,
+            newIMInput: false,
         };
     },
     methods: {
+        // Redraw the reticle and visor
         redraw() {
             // Check bounds
             if (this.pos.x < 0) { this.pos.x = 0 }
@@ -102,6 +102,7 @@ export default {
             if (this.pos.y > 1200) { this.pos.y = 1200 }
 
             // Draw image section for full size map
+            // Satellite
             if (this.renderLayer === 'satellite' || this.renderLayer === 'both') {
                 this.ctxSat.drawImage(this.imSat, this.pos.x-this.rX, this.pos.y-this.rY,
                     2*this.rX, 2*this.rY,
@@ -109,6 +110,7 @@ export default {
                     2*this.rX, 2*this.rY);
             }
 
+            // Lidar
             if (this.renderLayer === 'lidar' || this.renderLayer === 'both') {
                 this.ctxLidar.drawImage(this.imLidar, this.pos.x-this.rX, this.pos.y-this.rY,
                     2*this.rX, 2*this.rY,
@@ -120,71 +122,106 @@ export default {
             this.$refs.reticle.style.left = this.pos.x - this.rX - 4 + "px";
             this.$refs.reticle.style.top = this.pos.y - this.rY - 4 + "px";
         },
-        processControllerInput(delta) {
+        // Deprecated
+        // processControllerInput(delta) {
             
-            this.controller = navigator.getGamepads()[this.$props.gamepad];
+        //     this.controller = navigator.getGamepads()[this.$props.gamepad];
 
-            if (this.controller) {
+        //     if (this.controller) {
 
-                if (!isNaN(this.controller.axes[0]) && Math.abs(this.controller.axes[0]) > CONTROLLER_DEADZONE) {
-                    this.pos.x += this.controller.axes[0] * MOVEMENT_SPEED * delta;
-                }
+        //         if (!isNaN(this.controller.axes[0]) && Math.abs(this.controller.axes[0]) > CONTROLLER_DEADZONE) {
+        //             this.pos.x += this.controller.axes[0] * MOVEMENT_SPEED * delta;
+        //         }
 
-                if (!isNaN(this.controller.axes[1]) && Math.abs(this.controller.axes[1]) > CONTROLLER_DEADZONE) {
-                    this.pos.y += this.controller.axes[1] * MOVEMENT_SPEED * delta;
-                }
+        //         if (!isNaN(this.controller.axes[1]) && Math.abs(this.controller.axes[1]) > CONTROLLER_DEADZONE) {
+        //             this.pos.y += this.controller.axes[1] * MOVEMENT_SPEED * delta;
+        //         }
+        //     }
+        // },
+        // Deprecated
+        // processMouseInput(e) {
+        //     this.pos.x = e.x;
+        //     this.pos.y = e.y;
+        // },
+
+        // Process input for input manager for new frame
+        processMovement(delta) {
+
+            // Check if new input has arrived
+            // HID does not report input stop, move values have to be reset to 0
+            if (!this.newIMInput) {
+                this.currIX = 0;
+                this.currIY = 0;
+            } else {
+                this.newIMInput = false;
             }
-        },
-        processMouseInput(e) {
-            this.pos.x = e.x;
-            this.pos.y = e.y;
-        },
-        checkHotspots(delta) {
 
+            // Calculate new position
+            this.pos.x += this.currIX * MOVEMENT_SPEED * delta;
+            this.pos.y += this.currIY * MOVEMENT_SPEED * delta;  
+        },
+
+        // Check the position of the reticle relative to the hotspots
+        checkHotspots(delta) {
+            
+            // Check if the reticle is positioned on any of the hotspots
             for (const spot of hotspots) {
                 const d = this.distance(this.pos, spot);
                 if (d < MAGNET_RADIUS && d > 1) {
-                    
-                    const dx = spot.x - this.pos.x;
-                    // Prevent overshooting
-                    if (Math.abs(dx) < MAGNET_SPEED * delta) {
-                        this.pos.x += dx;
-                    } else {
-                        this.pos.x += MAGNET_SPEED * Math.sign(dx) * delta;
-                    }
-
-                    const dy = spot.y - this.pos.y;
-                    // Prevent overshooting
-                    if (Math.abs(dy) < MAGNET_SPEED * delta) {
-                        this.pos.y += dy;
-                    } else {
-                        this.pos.y += MAGNET_SPEED * Math.sign(dy) * delta;
-                    }
+                    this.magnetAttract(spot, delta);
                 }
 
                 if (d < HOTSPOT_RADIUS) {
                     
                     // Prevent continuously reporting the same spot
                     if (this.hotspot !== spot.id && (this.pos.x != this.lastpos.x || this.pos.y != this.lastpos.y)) {
-                        this.hotspotTrigger(spot)
+                        this.triggerHotspot(spot);
                     }
                 }
             }
         },
-        hotspotTrigger(spot) {
+
+        // Apply magnet attacting force to reticle from the given spot
+        magnetAttract(spot, delta) {
+            const dx = spot.x - this.pos.x;
+            // Prevent overshooting
+            if (Math.abs(dx) < MAGNET_SPEED * delta) {
+                this.pos.x += dx;
+            } else {
+                this.pos.x += MAGNET_SPEED * Math.sign(dx) * delta;
+            }
+
+            const dy = spot.y - this.pos.y;
+            // Prevent overshooting
+            if (Math.abs(dy) < MAGNET_SPEED * delta) {
+                this.pos.y += dy;
+            } else {
+                this.pos.y += MAGNET_SPEED * Math.sign(dy) * delta;
+            }
+        },
+
+        // Handle hotspot activation for given spot
+        triggerHotspot(spot) {
             this.$emit('hotspotFound', spot.id);
             this.currSpot = spot.id;
             Utils.triggerAnim(this.$refs.reticle, "flash", 1);
 
             this.switchRenderLayer(spot.type);
         },
+
+        // Reset reticle to idle mode
         onIdle() {
             this.currSpot = 'idle';
             this.redraw();
 
             this.switchRenderLayer('satellite');
         },
+
+        // Switch to rendering the diven layer ('satellite' | 'lidar')
+        // Includes transition animation
         switchRenderLayer(layer) {
+
+            // Render both layer during animation
             this.renderLayer = 'both'
 
             // Render only relevant layer after transition animation
@@ -193,45 +230,90 @@ export default {
                 this.renderLayer = layer
             }, 2000);
 
+            // Show or hide lidar layer
             if (layer === 'satellite') {
                 this.$refs.reticleCanvasLidar.classList.add("hidden");
             } else {
                 this.$refs.reticleCanvasLidar.classList.remove("hidden");
             }
         },
+
+        // Handle incoming key presses
+        onKey(e) {
+
+            // Check valid key
+            if (e.key) {
+                
+                // Check if the pressed key is a unicode-coded message from InputManager
+                const code = e.key.charCodeAt(0).toString(16).toUpperCase();
+                if (code.length === 4 && code[0] === 'A') {
+                    this.processIMKeyInput(code);
+                }
+            }
+        },
+
+        // Process incoming InputManager unicode-coded input messages
+        processIMKeyInput(code) {
+
+            const deviceID = parseInt(code[1], 16);
+
+            if (deviceID === this.$props.deviceID) {
+                let x = parseInt(code[2], 16);
+                let y = parseInt(code[3], 16);
+
+                // Decode negative numbers (wrapped around single hex char)
+                if (x >= 8) { x -= 15 }
+                if (y >= 8) { y -= 15 }
+
+                // Save input
+                this.currIX = x;
+                this.currIY = y;
+                this.newIMInput = true;
+            }
+        },
+
+        // Frame update loop
         updateLoop(timestamp) {
+
+            // Keep loop running
             window.requestAnimationFrame(this.updateLoop);
-            // WARNING: TODO:FIX: FRAMERATE-DEPENDENT
+
+            // Get frame delta
             const delta = (timestamp - this.lastTimestamp) / 100;
 
-            let moved = false;
-
             // Track idle timer
+            let moved = false;
             if (this.pos.x != this.lastpos.x || this.pos.y != this.lastpos.y) {
                 this.lastMovement = timestamp;
                 moved = true;
 
                 if (this.idle) {
                     this.$emit('leave-idle');
-                    // this.idle = false;
                 }
             }
             this.lastpos.x = this.pos.x;
             this.lastpos.y = this.pos.y;
 
+            // Check to go in idle
             if (timestamp - this.lastMovement > IDLE_TIME * 1000 && !this.idle) {
+
+                // Check not currently on hotspot
                 if (this.distance(hotspots.find(spot => spot.id === this.currSpot), this.pos) > HOTSPOT_RADIUS) {
                     this.$emit('enter-idle');
                     this.onIdle();
-                    // this.idle = true;
                 }
             }
 
-            this.processControllerInput(delta);
+            // Movement controll
+            this.processMovement(delta);
+
+            // Hotspot controll
+            this.checkHotspots(delta);
+            
+            // Redraw only if necessary
             if (this.$refs.reticle && moved) {
                 this.redraw();
             }
-            this.checkHotspots(delta);
 
             this.lastTimestamp = timestamp;
         },
@@ -240,8 +322,10 @@ export default {
         }
     },
     mounted() {
-        this.ctxSat = this.$refs.reticleCanvasSat.getContext("2d")
-        this.ctxLidar = this.$refs.reticleCanvasLidar.getContext("2d")
+
+        // Create drawing context objects
+        this.ctxSat = this.$refs.reticleCanvasSat.getContext("2d");
+        this.ctxLidar = this.$refs.reticleCanvasLidar.getContext("2d");
 
         // Prepare images for both satellite and lidar
         this.imSat = new Image();
@@ -249,6 +333,7 @@ export default {
         this.imLidar = new Image();
         this.imLidar.src = this.$props.lidarImage;
 
+        // Set up radii
         if (this.$props.orientation === 'horizontal') {
             this.rX = 116;
             this.rY = 86;
@@ -259,8 +344,8 @@ export default {
 
         this.redraw();
 
-        this.controller = navigator.getGamepads()[0];
-        document.addEventListener("mousemove", this.processMouseInput)
+        // Register listener to keyboard input (incl. InputManager messages)
+        document.addEventListener('keydown', this.onKey);
 
         // Start interaction loop
         window.requestAnimationFrame(this.updateLoop);
@@ -323,7 +408,7 @@ export default {
 .reticle-c .reticle-canvas {
     width: 172px;
     height: 232px;
-    border-radius: 86px;
+    border-radius: 12px;
 }
 
 .visor {
@@ -344,19 +429,6 @@ export default {
 .reticle-c .visor {
     width: 180px;
     height: 240px;
-}
-
-.anim-fade-out {
-    animation: fade 2s forwards;
-}
-
-.anim-fade-in {
-    animation: fade 2s reverse;
-}
-
-@keyframes fade {
-    0% { opacity: 1!important; };
-    100% {opacity: 0!important; };
 }
 
 .hidden {
