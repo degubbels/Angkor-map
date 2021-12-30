@@ -47,7 +47,7 @@
             class='reticle-c'
             orientation='vertical'
         ></Reticle>
-        <InfoBox :textSource="tour" :hotspot="bSpot"></InfoBox>
+        <InfoBox :textSource="tour" :hotspot="cSpot"></InfoBox>
     </div>
 </div>
 </template>

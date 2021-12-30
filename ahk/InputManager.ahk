@@ -4,11 +4,30 @@
 
     @degu
 */
-#SingleInstance
+#SingleInstance, off
 #Include %A_ScriptDir%\Lib\BIGA\export.ahk
 
 ;To make x,y movements look nice
 SetFormat, FloatFast, 3.0
+
+; Device numbers to seperate the trackballs
+global dev1 := "6&20d96b6f&0&0000"
+global dev2 := "6&24472387&0&0000"
+global dev3 := "6&e35d201&0&0000"
+global devnumber := ""
+global devid := 0
+If (A_Args.Length() > 0) {
+    devid := A_Args[1]
+    If A_Args[1] == "1" {
+        devnumber := dev1
+    }
+    If A_Args[1] == "2" {
+        devnumber := dev2
+    }
+    If A_Args[1] == "3" {
+        devnumber := dev3
+    }
+}
 
 ; Create GUI
 Gui, +Resize -MaximizeBox -MinimizeBox +LastFound
@@ -42,14 +61,12 @@ ExitApp
 
 ; Process incoming HID input message
 InputMsg(wParam, lParam) {
-    local h, i, x, y, t, devname, devnameparts, isTrackball
+    local h, i, x, y, t, devname, devnameparts, isTrackball, thisdevnumber
     Critical
 
     ; Get device info
     h := AHKHID_GetInputInfo(lParam, II_DEVHANDLE)
     devname := AHKHID_GetDevName(h, True)
-    x := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTX)
-    y := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTY)
 
     ; Check if device is a trackball
     devnameparts := StrSplit(devname, "#")
@@ -59,17 +76,21 @@ InputMsg(wParam, lParam) {
         isTrackball := False
     }
 
-    If (isTrackball) {
-        
+
+    If (isTrackball and (devnameparts[3] == devnumber or A_Args.Length() == 0)) {
+    ; If (isTrackball) {
+        thisdevnumber := devnameparts[3]
         i := A.indexOf(InputDevices, h)
+        x := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTX)
+        y := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTY)
         
         If (i == -1) {
             ; Register new device
             InputDevices.push(h)
-            LV_Add("", i, h, isTrackball, x, y, A_TickCount, devname)
+            LV_Add("", i, h, isTrackball, x, y, A_TickCount, thisdevnumber)
         } Else {
             
-            LV_Modify(i,, i, h, isTrackball, x, y, A_TickCount, devname)
+            LV_Modify(i,, i, h, isTrackball, x, y, A_TickCount, thisdevnumber)
         }
 
         sendTrackballInput(h, i, x, y)
@@ -89,6 +110,8 @@ sendTrackballInput(h, i, x, y) {
     ; Convert to hex chars
     x := charToHex(x)
     y := charToHex(y)
+
+    i := devid
 
     ; Send data to browser by unicoded-code message sent as keypresses
     ; A message consists of 4 hex chars
