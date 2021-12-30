@@ -1,10 +1,5 @@
 <template>
     <div :class="idle ? 'reticle r-idle' : 'reticle'" ref="reticle">
-        <div class="databus" v-show="false">
-            <div class="posreceive-x" ref="posreceivex" value=0 count=0></div>
-            <div class="posreceive-y" ref="posreceivey" value=0 count=0></div>
-            <div @click="processIMInput" class="posreceive-pending" ref="posreceivepending" value=0>pen</div>
-        </div>
         <canvas
             class="reticle-canvas"
             ref="reticleCanvasSat"
@@ -66,7 +61,7 @@ export default {
         'visor',
         'hotspot',
         'idle',
-        'gamepad',
+        'deviceID',
         'orientation'
     ],
     emits: [
@@ -76,19 +71,19 @@ export default {
     ],
     data () {
         return {
-            ctxSat: 0,
-            ctxLidar: 0,
+            ctxSat: 0,      // Drawing context for satellite render layer
+            ctxLidar: 0,    // Drawing context for lidar render layer
             controller: null,
-            pos: {
+            pos: {  // Current position
                 x: 0,
                 y: 0,
-            },
+            },      // Position last frome
             lastpos: {
                 x: 0,
                 y: 0,
             },
-            rX: 116,
-            rY: 86,
+            rX: 116,        // Reticle radius on x-axis
+            rY: 86,         // Reticle radius on x-axis
             lastTimestamp: 0,
             lastMovement: 0,
             currSpot: 'idle',
@@ -98,7 +93,7 @@ export default {
             renderTimeout: null,
             currIX: 0,
             currIY: 0,
-            newInput: false,
+            newIMInput: false,
         };
     },
     methods: {
@@ -110,6 +105,7 @@ export default {
             if (this.pos.y > 1200) { this.pos.y = 1200 }
 
             // Draw image section for full size map
+            // Satellite
             if (this.renderLayer === 'satellite' || this.renderLayer === 'both') {
                 this.ctxSat.drawImage(this.imSat, this.pos.x-this.rX, this.pos.y-this.rY,
                     2*this.rX, 2*this.rY,
@@ -117,6 +113,7 @@ export default {
                     2*this.rX, 2*this.rY);
             }
 
+            // Lidar
             if (this.renderLayer === 'lidar' || this.renderLayer === 'both') {
                 this.ctxLidar.drawImage(this.imLidar, this.pos.x-this.rX, this.pos.y-this.rY,
                     2*this.rX, 2*this.rY,
@@ -128,100 +125,106 @@ export default {
             this.$refs.reticle.style.left = this.pos.x - this.rX - 4 + "px";
             this.$refs.reticle.style.top = this.pos.y - this.rY - 4 + "px";
         },
-        processControllerInput(delta) {
+        // Deprecated
+        // processControllerInput(delta) {
             
-            this.controller = navigator.getGamepads()[this.$props.gamepad];
+        //     this.controller = navigator.getGamepads()[this.$props.gamepad];
 
-            if (this.controller) {
+        //     if (this.controller) {
 
-                if (!isNaN(this.controller.axes[0]) && Math.abs(this.controller.axes[0]) > CONTROLLER_DEADZONE) {
-                    this.pos.x += this.controller.axes[0] * MOVEMENT_SPEED * delta;
-                }
+        //         if (!isNaN(this.controller.axes[0]) && Math.abs(this.controller.axes[0]) > CONTROLLER_DEADZONE) {
+        //             this.pos.x += this.controller.axes[0] * MOVEMENT_SPEED * delta;
+        //         }
 
-                if (!isNaN(this.controller.axes[1]) && Math.abs(this.controller.axes[1]) > CONTROLLER_DEADZONE) {
-                    this.pos.y += this.controller.axes[1] * MOVEMENT_SPEED * delta;
-                }
-            }
-        },
-        processIMInput(delta) {
-            // // if (this.$refs.posreceivepending.value === 'true') {
-                // console.log(this.$refs.posreceivepending.value);
-            // this.$refs.posreceivepending.value = 0;
-            // }
-            // if (this.$refs.posreceivex.getAttribute('count') > 0) {
-            //     this.currIX = this.$refs.posreceivex.getAttribute('value');
-            //     this.$refs.posreceivex.setAttribute('count', 0)
-            // } else {
-            //     this.currIX = 0;
-            // }
+        //         if (!isNaN(this.controller.axes[1]) && Math.abs(this.controller.axes[1]) > CONTROLLER_DEADZONE) {
+        //             this.pos.y += this.controller.axes[1] * MOVEMENT_SPEED * delta;
+        //         }
+        //     }
+        // },
+        // Deprecated
+        // processMouseInput(e) {
+        //     this.pos.x = e.x;
+        //     this.pos.y = e.y;
+        // },
 
-            // if (this.$refs.posreceivey.getAttribute('count') > 0) {
-            //     this.currIY = this.$refs.posreceivey.getAttribute('value');
-            //     this.$refs.posreceivey.setAttribute('count', 0)
-            // } else {
-            //     this.currIY = 0;
-            // }
-            if (!this.newInput) {
+        // Process input for input manager for new frame
+        processMovement(delta) {
+
+            // Check if new input has arrived
+            // HID does not report input stop, move values have to be reset to 0
+            if (!this.newIMInput) {
                 this.currIX = 0;
                 this.currIY = 0;
             } else {
-                this.newInput = false;
+                this.newIMInput = false;
             }
 
+            // Calculate new position
             this.pos.x += this.currIX * MOVEMENT_SPEED * delta;
-            this.pos.y += this.currIY * MOVEMENT_SPEED * delta;
-            
+            this.pos.y += this.currIY * MOVEMENT_SPEED * delta;  
         },
-        processMouseInput(e) {
-            this.pos.x = e.x;
-            this.pos.y = e.y;
-        },
-        checkHotspots(delta) {
 
+        // Check the position of the reticle relative to the hotspots
+        checkHotspots(delta) {
+            
+            // Check if the reticle is positioned on any of the hotspots
             for (const spot of hotspots) {
                 const d = this.distance(this.pos, spot);
                 if (d < MAGNET_RADIUS && d > 1) {
-                    
-                    const dx = spot.x - this.pos.x;
-                    // Prevent overshooting
-                    if (Math.abs(dx) < MAGNET_SPEED * delta) {
-                        this.pos.x += dx;
-                    } else {
-                        this.pos.x += MAGNET_SPEED * Math.sign(dx) * delta;
-                    }
-
-                    const dy = spot.y - this.pos.y;
-                    // Prevent overshooting
-                    if (Math.abs(dy) < MAGNET_SPEED * delta) {
-                        this.pos.y += dy;
-                    } else {
-                        this.pos.y += MAGNET_SPEED * Math.sign(dy) * delta;
-                    }
+                    this.magnetAttract(spot, delta);
                 }
 
                 if (d < HOTSPOT_RADIUS) {
                     
                     // Prevent continuously reporting the same spot
                     if (this.hotspot !== spot.id && (this.pos.x != this.lastpos.x || this.pos.y != this.lastpos.y)) {
-                        this.hotspotTrigger(spot)
+                        this.triggerHotspot(spot);
                     }
                 }
             }
         },
-        hotspotTrigger(spot) {
+
+        // Apply magnet attacting force to reticle from the given spot
+        magnetAttract(spot, delta) {
+            const dx = spot.x - this.pos.x;
+            // Prevent overshooting
+            if (Math.abs(dx) < MAGNET_SPEED * delta) {
+                this.pos.x += dx;
+            } else {
+                this.pos.x += MAGNET_SPEED * Math.sign(dx) * delta;
+            }
+
+            const dy = spot.y - this.pos.y;
+            // Prevent overshooting
+            if (Math.abs(dy) < MAGNET_SPEED * delta) {
+                this.pos.y += dy;
+            } else {
+                this.pos.y += MAGNET_SPEED * Math.sign(dy) * delta;
+            }
+        },
+
+        // Handle hotspot activation for given spot
+        triggerHotspot(spot) {
             this.$emit('hotspotFound', spot.id);
             this.currSpot = spot.id;
             Utils.triggerAnim(this.$refs.reticle, "flash", 1);
 
             this.switchRenderLayer(spot.type);
         },
+
+        // Reset reticle to idle mode
         onIdle() {
             this.currSpot = 'idle';
             this.redraw();
 
             this.switchRenderLayer('satellite');
         },
+
+        // Switch to rendering the diven layer ('satellite' | 'lidar')
+        // Includes transition animation
         switchRenderLayer(layer) {
+
+            // Render both layer during animation
             this.renderLayer = 'both'
 
             // Render only relevant layer after transition animation
@@ -230,28 +233,56 @@ export default {
                 this.renderLayer = layer
             }, 2000);
 
+            // Show or hide lidar layer
             if (layer === 'satellite') {
                 this.$refs.reticleCanvasLidar.classList.add("hidden");
             } else {
                 this.$refs.reticleCanvasLidar.classList.remove("hidden");
             }
         },
-        onKey(e) {
-            let code = e.key.charCodeAt(0).toString(16).toUpperCase();
-            // console.log(code);
-            let x = parseInt(code[2], 16)
-            let y = parseInt(code[3], 16)
 
-            if (x >= 8) { x -= 15 }
-            if (y >= 8) { y -= 15 }
-            this.currIX = x;
-            this.currIY = y;
-            this.newInput = true;
-            // console.log(x);
+        // Handle incoming key presses
+        onKey(e) {
+
+            // Check valid key
+            if (e.key) {
+                
+                // Check if the pressed key is a unicode-coded message from InputManager
+                const code = e.key.charCodeAt(0).toString(16).toUpperCase();
+                if (code.length === 4 && code[0] === 'A') {
+                    this.processIMKeyInput(code);
+                }
+            }
         },
+
+        // Process incoming InputManager unicode-coded input messages
+        processIMKeyInput(code) {
+
+            const deviceID = parseInt(code[1], 16);
+
+            if (deviceID === this.$props.deviceID) {
+                let x = parseInt(code[2], 16);
+                let y = parseInt(code[3], 16);
+
+                // Decode negative numbers (wrapped around single hex char)
+                if (x >= 8) { x -= 15 }
+                if (y >= 8) { y -= 15 }
+
+                // Save input
+                this.currIX = x;
+                this.currIY = y;
+                this.newIMInput = true;
+            }
+        },
+
+        // Frame update loop
         updateLoop(timestamp) {
+
+            // Keep loop running
             window.requestAnimationFrame(this.updateLoop);
-            // WARNING: TODO:FIX: FRAMERATE-DEPENDENT
+
+
+            // Get frame delta
             const delta = (timestamp - this.lastTimestamp) / 100;
 
             let moved = false;
@@ -277,10 +308,10 @@ export default {
                 }
             }
 
-            this.processControllerInput(delta);
+            // this.processControllerInput(delta);
             // if (this.$refs.posreceivepending.value === 'true') {
                 // }
-            this.processIMInput(delta);
+            this.processMovement(delta);
             document.addEventListener('keydown', this.onKey);
             // this.processIMInput(delta);
             if (this.$refs.reticle && moved) {
@@ -350,17 +381,6 @@ export default {
     height: 240px;
 }
 
-.databus {
-    display: flex;
-    flex-direction: row;
-
-    width: 240px;
-}
-
-.databus input {
-    width: 30%;
-}
-
 .r-idle {
     z-index: 8;
 }
@@ -390,7 +410,7 @@ export default {
 .reticle-c .reticle-canvas {
     width: 172px;
     height: 232px;
-    border-radius: 86px;
+    border-radius: 12px;
 }
 
 .visor {

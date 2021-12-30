@@ -47,7 +47,7 @@ GuiClose:
 ; wd.delete()
 ExitApp
 
-toHex(dec) {
+charToHex(dec) {
     if (dec == 15) {
         return "F"
     } else if (dec == 14) {
@@ -74,21 +74,16 @@ InputMsg(wParam, lParam) {
     x := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTX)
     y := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTY)
     devinfo := AHKHID_GetDevName(h, True)
-    ; y := Format("{:i}", "0x" y)
 
     i := A.indexOf(InputDevices, h)
 
-    ; Wrap around 16
-    if (x < 0) {
-        x := 15 + x
-    }
-    x := toHex(x)
-    ; x := str2hex(x)
+    ; Wrap negative around 16
+    if (x < 0) { x := 15 + x }
+    if (y < 0) { y := 15 + y }
 
-    if (y < 0) {
-        y := 15 + y
-    }
-    y := toHex(y)
+    ; Convert to hex chars
+    x := charToHex(x)
+    y := charToHex(y)
     
     If (i == -1) {
         ; Register new device
@@ -99,15 +94,14 @@ InputMsg(wParam, lParam) {
         LV_Modify(i,, i, h, x, y, A_TickCount, devinfo)
     }
 
-    ; Send data to browser by executing js snippets
-    if (i == 2) {
-        Send {U+082%x%%y%}
-        ; wdriver.ExecuteScript("console.log(" x ")")
-        ; wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-x')[0].setAttribute('value'," x ")")
-        ; wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-y')[0].setAttribute('value'," y ")")
-        ; wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-x')[0].setAttribute('count', 1)")
-        ; wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-y')[0].setAttribute('count', 1)")
-        ; wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-pending')[0].click()")
-        ; wdriver.ExecuteScript("document.getElementById('A').getElementsByClassName('posreceive-pending')[0].value += 1")
+    ; Send data to browser by unicoded-code message sent as keypresses
+    if (i >= 3) {
+
+        ; A message consists of 4 hex chars
+        ; 0: Constant A signalling that this char is an input message
+        ; 1: The device ID
+        ; 2: Input on x-axis (negative numbers wrapped around)
+        ; 3: Input on y-axis (negative numbers wrapped around)
+        Send {U+0A%i%%x%%y%}
     }
 }
