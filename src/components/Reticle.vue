@@ -22,9 +22,6 @@
 <script>
 import Utils from '/src/Utils.js'
 
-let r = 100;
-
-const CONTROLLER_DEADZONE = 0.15;
 const MOVEMENT_SPEED = 15;
 
 const HOTSPOT_RADIUS = 4;
@@ -73,7 +70,6 @@ export default {
         return {
             ctxSat: 0,      // Drawing context for satellite render layer
             ctxLidar: 0,    // Drawing context for lidar render layer
-            controller: null,
             pos: {  // Current position
                 x: 0,
                 y: 0,
@@ -97,6 +93,7 @@ export default {
         };
     },
     methods: {
+        // Redraw the reticle and visor
         redraw() {
             // Check bounds
             if (this.pos.x < 0) { this.pos.x = 0 }
@@ -281,43 +278,42 @@ export default {
             // Keep loop running
             window.requestAnimationFrame(this.updateLoop);
 
-
             // Get frame delta
             const delta = (timestamp - this.lastTimestamp) / 100;
 
-            let moved = false;
-
             // Track idle timer
+            let moved = false;
             if (this.pos.x != this.lastpos.x || this.pos.y != this.lastpos.y) {
                 this.lastMovement = timestamp;
                 moved = true;
 
                 if (this.idle) {
                     this.$emit('leave-idle');
-                    // this.idle = false;
                 }
             }
             this.lastpos.x = this.pos.x;
             this.lastpos.y = this.pos.y;
 
+            // Check to go in idle
             if (timestamp - this.lastMovement > IDLE_TIME * 1000 && !this.idle) {
+
+                // Check not currently on hotspot
                 if (this.distance(hotspots.find(spot => spot.id === this.currSpot), this.pos) > HOTSPOT_RADIUS) {
                     this.$emit('enter-idle');
                     this.onIdle();
-                    // this.idle = true;
                 }
             }
 
-            // this.processControllerInput(delta);
-            // if (this.$refs.posreceivepending.value === 'true') {
-                // }
+            // Movement controll
             this.processMovement(delta);
-            document.addEventListener('keydown', this.onKey);
-            // this.processIMInput(delta);
+
+            // Hotspot controll
+            this.checkHotspots(delta);
+            
+            // Redraw only if necessary
             if (this.$refs.reticle && moved) {
                 this.redraw();
             }
-            this.checkHotspots(delta);
 
             this.lastTimestamp = timestamp;
         },
@@ -326,6 +322,8 @@ export default {
         }
     },
     mounted() {
+
+        // Create drawing context objects
         this.ctxSat = this.$refs.reticleCanvasSat.getContext("2d");
         this.ctxLidar = this.$refs.reticleCanvasLidar.getContext("2d");
 
@@ -335,6 +333,7 @@ export default {
         this.imLidar = new Image();
         this.imLidar.src = this.$props.lidarImage;
 
+        // Set up radii
         if (this.$props.orientation === 'horizontal') {
             this.rX = 116;
             this.rY = 86;
@@ -345,9 +344,8 @@ export default {
 
         this.redraw();
 
-        this.controller = navigator.getGamepads()[0];
-        // document.addEventListener("mousemove", this.processMouseInput)
-        
+        // Register listener to keyboard input (incl. InputManager messages)
+        document.addEventListener('keydown', this.onKey);
 
         // Start interaction loop
         window.requestAnimationFrame(this.updateLoop);
@@ -431,19 +429,6 @@ export default {
 .reticle-c .visor {
     width: 180px;
     height: 240px;
-}
-
-.anim-fade-out {
-    animation: fade 2s forwards;
-}
-
-.anim-fade-in {
-    animation: fade 2s reverse;
-}
-
-@keyframes fade {
-    0% { opacity: 1!important; };
-    100% {opacity: 0!important; };
 }
 
 .hidden {
