@@ -6,7 +6,7 @@
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
             visor="/visor-A.png"
-            :deviceID=2
+            :deviceID=1
             @hotspot-found="onAHotspotFound"
             :hotspot="aSpot"
             :idle="this.aIdle"
@@ -22,7 +22,7 @@
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
             visor="/visor-B.png"
-            :deviceID=3
+            :deviceID=2
             @hotspot-found="onBHotspotFound"
             :hotspot="bSpot"
             :idle="this.bIdle"
@@ -38,7 +38,7 @@
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
             visor="/visor-C.png"
-            :deviceID=4
+            :deviceID=3
             @hotspot-found="onCHotspotFound"
             :hotspot="cSpot"
             :idle="this.cIdle"
