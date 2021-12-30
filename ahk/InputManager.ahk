@@ -39,6 +39,8 @@ If (A_Args.Length() > 0) {
 ; Device handle for the specified trackball to follow
 global devhandle := 0
 
+global skippedCount := 0
+
 ; Create hidden GUI to get a handle for windows
 Gui, +Resize -MaximizeBox -MinimizeBox +LastFound
 Gui, Add, Text, , Trackball %devid%
@@ -78,7 +80,12 @@ InputMsg(wParam, lParam) {
     } else {
         if (h == devhandle) {
 
-            sendTrackballInput(h, lParam)
+            if (skippedCount > 2) {
+                skippedCount := 0
+                sendTrackballInput(h, lParam)
+            } else {
+                skippedCount +=1
+            }
         }
     }
 }
@@ -124,7 +131,6 @@ tryRegisterDevHandle(h) {
         ; Check that the device is the desired device
         If (devnameparts[3] == devnumber) {
             devhandle := h
-            MsgBox, Registered handle
         }
     }
 }

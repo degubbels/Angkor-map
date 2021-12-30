@@ -22,12 +22,12 @@
 <script>
 import Utils from '/src/Utils.js'
 
-const MOVEMENT_SPEED = 15;
+const MOVEMENT_SPEED = 8;
 
 const HOTSPOT_RADIUS = 4;
 
 const MAGNET_RADIUS = 32;
-const MAGNET_SPEED = 6;
+const MAGNET_SPEED = 4;
 
 const IDLE_TIME = 8;
 
