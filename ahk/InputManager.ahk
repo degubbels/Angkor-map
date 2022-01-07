@@ -75,30 +75,35 @@ InputMsg(wParam, lParam) {
 
 ; Get input from this device and send to app
 sendTrackballInput(h, lParam) {
-    local x, y
+    local x, y, currentWindow
 
-    x := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTX)
-    y := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTY)
+    ; Check that the application is in focus
+    WinGetActiveTitle, currentWindow
+    if (currentWindow == "ANGKOR-INTERACTIVE - Mozilla Firefox") {
+            
+        x := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTX)
+        y := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTY)
 
-    ; Wrap negative around 16
-    if (x < 0) {
-        x := 15 + x 
+        ; Wrap negative around 16
+        if (x < 0) {
+            x := 15 + x 
+        }
+        if (y < 0) {
+            y := 15 + y
+        }
+
+        ; Convert to hex chars
+        x := charToHex(x)
+        y := charToHex(y)
+
+        ; Send data to browser by unicoded-code message sent as keypresses
+        ; A message consists of 4 hex chars
+        ; 0: Constant A signalling that this char is an input message
+        ; 1: The device ID
+        ; 2: Input on x-axis (negative numbers wrapped around)
+        ; 3: Input on y-axis (negative numbers wrapped around)
+        Send, {U+0A%devid%%x%%y%}
     }
-    if (y < 0) {
-        y := 15 + y
-    }
-
-    ; Convert to hex chars
-    x := charToHex(x)
-    y := charToHex(y)
-
-    ; Send data to browser by unicoded-code message sent as keypresses
-    ; A message consists of 4 hex chars
-    ; 0: Constant A signalling that this char is an input message
-    ; 1: The device ID
-    ; 2: Input on x-axis (negative numbers wrapped around)
-    ; 3: Input on y-axis (negative numbers wrapped around)
-    Send, {U+0A%devid%%x%%y%}
 }
 
 ; Check if this device is the desired trackpad, if so, register the handle
