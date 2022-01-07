@@ -1,0 +1,42 @@
+1/4/2022 3:11:45 PM Info Project 'angkor-pc-provisioning' created successfully and added to workspace
+1/4/2022 3:11:47 PM Info Loading scenario ID: ee64f926-ff3c-463c-942d-d3429845c21f, URI: http://localhost:9098/Scenarios/ee64f926-ff3c-463c-942d-d3429845c21f/Index.html
+1/4/2022 3:15:45 PM Info Clear all Config Template answers
+1/4/2022 3:15:45 PM Info Save Config Template answers for active project
+1/4/2022 3:15:45 PM Info Start provisioning package build
+1/4/2022 3:15:45 PM Info Exporting customizations as a Provisioning Package to 'C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-380_8612.8_379100085.1'
+1/4/2022 3:15:45 PM Info Adding runtime settings to Provisioning Package
+1/4/2022 3:15:45 PM Info CreateTempDirectory: Create directory: C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\0__Accounts_ComputerAccount.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\1__Accounts_Users_Angkor-Map-Interactive.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\2__Accounts_Users_admin.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\3__Policies_ApplicationManagement_AllowAllTrustedApps.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\4__CleanPC.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\5__OOBE_Desktop_HideOobe.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\6__ProvisioningCommands_PrimaryContext_Command_0_CommandFile.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\7__ProvisioningCommands_PrimaryContext_Command_0_CommandLine.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\8__ProvisioningCommands_PrimaryContext_Command_0_ContinueInstall.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\9__ProvisioningCommands_PrimaryContext_Command_0_RestartRequired.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\10__ProvisioningCommands_PrimaryContext_Command_0_ReturnCodeRestart.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\11__ProvisioningCommands_PrimaryContext_Command_0_ReturnCodeSuccess.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\12__ProvisioningCommands_PrimaryContext_Command_1_CommandLine.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\13__ProvisioningCommands_PrimaryContext_Command_2_CommandLine.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\14__ProvisioningCommands_PrimaryContext_Command_3_CommandLine.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\15__ProvisioningCommands_PrimaryContext_Command_4_CommandLine.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\16__ProvisioningCommands_PrimaryContext_Command_5_CommandLine.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\17__ProvisioningCommands_PrimaryContext_Command_6_CommandLine.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\18__SMISettings_AutoLogon.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\19__SMISettings_BrandingNeutral.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\20__SMISettings_HideAutologonUI.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\21__SMISettings_NoLockScreen.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\22__SMISettings_ShellLauncher.provxml
+1/4/2022 3:15:45 PM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-417_8612.8_1417453329.2\Prov\RunTime\23__SMISettings_UIVerbosityLevel.provxml
+1/4/2022 3:15:45 PM Info Adding deployment settings to Provisioning Package
+1/4/2022 3:15:45 PM Info Adding file assets to Provisioning Package
+1/4/2022 3:15:45 PM Info Packaging file asset D:\download\Firefox Installer.exe
+1/4/2022 3:15:45 PM Info Sent message to all clients for project c094512c-2223-415f-91ff-9ac8ba5c5440
+1/4/2022 3:15:46 PM Info CopyFile: Source path: C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-939_8612.8_641893522.cat, Target path: D:\dev\web\Angkor-map\provisioning\angkor-pc-provisioning.cat
+1/4/2022 3:15:46 PM Info CopyFile: Source path: C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-380_8612.8_379100085.1, Target path: D:\dev\web\Angkor-map\provisioning\angkor-pc-provisioning.ppkg
+1/4/2022 3:15:46 PM Info DeleteFile: File '' does not exist
+1/4/2022 3:15:46 PM Info DeleteFile: File 'C:\Users\deg\AppData\Local\Temp\ICD_20220104-151545-380_8612.8_379100085.1' does not exist
+1/4/2022 3:15:46 PM Info Provisioning package build is completed with result: Success
+1/4/2022 3:15:46 PM Info Sent message to all clients for project c094512c-2223-415f-91ff-9ac8ba5c5440

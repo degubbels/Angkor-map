@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WindowsCustomizations>
+  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
+    <ID>{c094512c-2223-415f-91ff-9ac8ba5c5440}</ID>
+    <Name>angkor-pc-provisioning</Name>
+    <Version>1.1</Version>
+    <OwnerType>OEM</OwnerType>
+    <Rank>0</Rank>
+    <Notes />
+  </PackageConfig>
+  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
+    <Customizations>
+      <Common>
+        <Accounts>
+          <ComputerAccount>
+            <ComputerName>Angkor-Map-PC</ComputerName>
+          </ComputerAccount>
+          <Users>
+            <User UserName="Angkor-Map-Interactive">
+              <Password>angkor01113</Password>
+              <UserGroup>Standard Users</UserGroup>
+            </User>
+            <User UserName="admin">
+              <Password>angkor01113</Password>
+              <UserGroup>Administrators</UserGroup>
+            </User>
+          </Users>
+        </Accounts>
+        <CleanPC>
+          <CleanPCWithoutRetainingUserData>Enable</CleanPCWithoutRetainingUserData>
+        </CleanPC>
+        <OOBE>
+          <Desktop>
+            <HideOobe>True</HideOobe>
+          </Desktop>
+        </OOBE>
+        <Policies>
+          <ApplicationManagement>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+          </ApplicationManagement>
+        </Policies>
+        <ProvisioningCommands>
+          <PrimaryContext>
+            <Command>
+              <CommandConfig Name="Firefox">
+                <CommandFile>D:\download\Firefox Installer.exe</CommandFile>
+                <CommandLine>cmd /c "firefox installer.exe"</CommandLine>
+                <ContinueInstall>True</ContinueInstall>
+                <RestartRequired>False</RestartRequired>
+                <ReturnCodeRestart>3010</ReturnCodeRestart>
+                <ReturnCodeSuccess>0</ReturnCodeSuccess>
+              </CommandConfig>
+              <CommandConfig Name="InstallShellLauncher">
+                <CommandLine>dism /online /enable-feature /FeatureName:Client-EmbeddedShellLauncher /all</CommandLine>
+              </CommandConfig>
+              <CommandConfig Name="InstallCustomLogon">
+                <CommandLine>dism /online /enable-feature /FeatureName:Client-EmbeddedLogon /all /norestart</CommandLine>
+              </CommandConfig>
+              <CommandConfig Name="SetACScreenTimeoutToNever">
+                <CommandLine>powercfg /setacvalueindex SCHEME_CURRENT 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e 0</CommandLine>
+              </CommandConfig>
+              <CommandConfig Name="SetACSleepTimeoutToNever">
+                <CommandLine>powercfg /setacvalueindex SCHEME_CURRENT 238c9fa8-0aad-41ed-83f4-97be242c8f20 29f6c1db-86da-48c5-9fdb-f2b67b1f44da 0</CommandLine>
+              </CommandConfig>
+              <CommandConfig Name="SetDCScreenTimeoutToNever">
+                <CommandLine>powercfg /setdcvalueindex SCHEME_CURRENT 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e 0</CommandLine>
+              </CommandConfig>
+              <CommandConfig Name="SetDCSleepTimeoutToNever">
+                <CommandLine>powercfg /setdcvalueindex SCHEME_CURRENT 238c9fa8-0aad-41ed-83f4-97be242c8f20 29f6c1db-86da-48c5-9fdb-f2b67b1f44da 0</CommandLine>
+              </CommandConfig>
+            </Command>
+          </PrimaryContext>
+        </ProvisioningCommands>
+        <SMISettings>
+          <AutoLogon>
+            <Enable>ENABLE</Enable>
+            <Password>angkor01113</Password>
+            <UserName>Angkor-Map-Interactive</UserName>
+          </AutoLogon>
+          <BrandingNeutral>17</BrandingNeutral>
+          <HideAutologonUI>True</HideAutologonUI>
+          <NoLockScreen>True</NoLockScreen>
+          <ShellLauncher>
+            <Enable>ENABLE</Enable>
+            <UserSpecificSettings>
+              <LocalUserSpecificSettings>
+                <LocalUserShellSetting Username="Angkor-Map-Interactive">
+                  <UserCustomShell>"c:\program files\firefox\firefox.exe -kiosk -private-window map-angkor.degu.info"</UserCustomShell>
+                </LocalUserShellSetting>
+              </LocalUserSpecificSettings>
+            </UserSpecificSettings>
+          </ShellLauncher>
+          <UIVerbosityLevel>Suppress</UIVerbosityLevel>
+        </SMISettings>
+      </Common>
+    </Customizations>
+  </Settings>
+</WindowsCustomizations>

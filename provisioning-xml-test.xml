@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssignedAccessConfiguration
+    xmlns="http://schemas.microsoft.com/AssignedAccess/2017/config"
+    xmlns:rs5="http://schemas.microsoft.com/AssignedAccess/201810/config"
+    >
+    <Profiles>
+        <Profile Id="{AFF9DA33-AE89-4039-B646-3A5706E92957}">
+            <KioskModeApp AppUserModelId="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"/>
+        </Profile>
+    </Profiles>
+    <Configs>
+        <Config>
+            <Account>singleappuser</Account>
+            <DefaultProfile Id="{AFF9DA33-AE89-4039-B646-3A5706E92957}"/>
+        </Config>
+    </Configs>
+</AssignedAccessConfiguration>

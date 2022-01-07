@@ -1,0 +1,88 @@
+1/5/2022 9:07:41 AM Info Project 'advanced-provisioning' created successfully and added to workspace
+1/5/2022 9:07:42 AM Info Loading scenario ID: ee64f926-ff3c-463c-942d-d3429845c21f, URI: http://localhost:9098/Scenarios/ee64f926-ff3c-463c-942d-d3429845c21f/Index.html
+1/5/2022 9:13:13 AM Info Clear all Config Template answers
+1/5/2022 9:13:13 AM Info Save Config Template answers for active project
+1/5/2022 9:13:14 AM Info Project 'advanced-provisioning' created successfully and added to workspace
+1/5/2022 9:13:18 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:22 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:23 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:25 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:25 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:26 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:28 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:28 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:29 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accountmanagement#userprofilepolicies
+1/5/2022 9:13:35 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accounts#azure
+1/5/2022 9:13:37 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-accounts#users
+1/5/2022 9:13:44 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-browser#partnersearchcode
+1/5/2022 9:13:48 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-browser#partnersearchcode
+1/5/2022 9:14:01 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-connections#general
+1/5/2022 9:14:05 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-connections#general
+1/5/2022 9:14:10 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-cleanpc#cleanpcretaininguserdata
+1/5/2022 9:14:18 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-maps#chinavariantwin10
+1/5/2022 9:14:20 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-location#supl1
+1/5/2022 9:14:43 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-time#provisionsettimezone
+1/5/2022 9:14:45 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-time#provisionsettimezone
+1/5/2022 9:14:47 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-time#provisionsettimezone
+1/5/2022 9:16:47 AM Info Start Provisioning package Build for Project: advanced-provisioning
+1/5/2022 9:17:59 AM Info Exporting customizations as a Provisioning Package to 'C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-933_2340.18_719401189.1'
+1/5/2022 9:17:59 AM Info Adding runtime settings to Provisioning Package
+1/5/2022 9:17:59 AM Info CreateTempDirectory: Create directory: C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\0__Accounts_ComputerAccount.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\1__Accounts_Users_ANGKOR.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\2__Accounts_Users_admin.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\3__Policies_ApplicationManagement_AllowAllTrustedApps.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\4__OOBE_Desktop_HideOobe.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\5__ProvisioningCommands_PrimaryContext_Command_0_CommandLine.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\6__ProvisioningCommands_PrimaryContext_Command_1_CommandLine.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\7__SMISettings_AutoLogon.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\8__SMISettings_HideAutologonUI.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\9__SMISettings_NoLockScreen.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\10__SMISettings_ShellLauncher.provxml
+1/5/2022 9:18:00 AM Info provxml writer, path = C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-985_2340.18_1930894229.2\Prov\RunTime\11__SMISettings_UIVerbosityLevel.provxml
+1/5/2022 9:18:00 AM Info Adding deployment settings to Provisioning Package
+1/5/2022 9:18:00 AM Info Adding file assets to Provisioning Package
+1/5/2022 9:18:00 AM Info CopyFile: Source path: C:\Users\deg\AppData\Local\Temp\ICD_20220105-091800-204_2340.18_23191975.cat, Target path: D:\dev\web\Angkor-map\provisioning\new\advanced-provisioning.cat
+1/5/2022 9:18:00 AM Info CopyFile: Source path: C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-933_2340.18_719401189.1, Target path: D:\dev\web\Angkor-map\provisioning\new\advanced-provisioning.ppkg
+1/5/2022 9:18:00 AM Info DeleteFile: File '' does not exist
+1/5/2022 9:18:00 AM Info DeleteFile: File 'C:\Users\deg\AppData\Local\Temp\ICD_20220105-091759-933_2340.18_719401189.1' does not exist
+1/5/2022 9:18:00 AM Info Media Creation Build Success page
+1/5/2022 9:18:03 AM Info Build workflow finished.
+1/5/2022 9:51:20 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-provisioningcommands#devicecontext
+1/5/2022 9:51:22 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-provisioningcommands#devicecontext
+1/5/2022 9:51:25 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-provisioningcommands#devicecontext
+1/5/2022 9:51:28 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#applicationmanagement
+1/5/2022 9:51:31 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#applicationmanagement
+1/5/2022 9:51:33 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#applicationmanagement
+1/5/2022 9:51:35 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#applicationmanagement
+1/5/2022 9:51:49 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#applicationdefaults
+1/5/2022 9:51:50 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#applicationdefaults
+1/5/2022 9:51:52 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#accounts
+1/5/2022 9:52:16 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#virtualizationbasedtechnology
+1/5/2022 9:52:22 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:00:24 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-storaged3inmodernstandby#storaged3inmodernstandby
+1/5/2022 10:00:32 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#devicemanagement
+1/5/2022 10:00:46 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:00:47 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:00:48 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:00:49 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:00:52 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:00:53 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:00:53 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:00:53 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#windowslogon
+1/5/2022 10:01:05 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:07 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:08 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:08 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:09 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:10 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:12 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:13 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:14 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:14 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:16 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:16 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:17 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#privacy
+1/5/2022 10:01:32 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#kioskbrowser
+1/5/2022 10:02:45 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#search
+1/5/2022 10:02:48 AM Info Navigating to URI https://docs.microsoft.com/windows/configuration/wcd/wcd-policies#search

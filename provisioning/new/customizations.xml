@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WindowsCustomizations>
+  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
+    <ID>{f996b7a9-4d3b-45cf-92f9-e56798cdb6ad}</ID>
+    <Name>advanced-provisioning</Name>
+    <Version>1.1</Version>
+    <OwnerType>OEM</OwnerType>
+    <Rank>0</Rank>
+    <Notes></Notes>
+  </PackageConfig>
+  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
+    <Customizations>
+      <Common>
+        <Accounts>
+          <ComputerAccount>
+            <ComputerName>angkor-pc</ComputerName>
+          </ComputerAccount>
+          <Users>
+            <User UserName="ANGKOR">
+              <Password>angkor01113</Password>
+              <UserGroup>Standard Users</UserGroup>
+            </User>
+            <User UserName="admin">
+              <Password>angkor01113</Password>
+              <UserGroup>Administrators</UserGroup>
+            </User>
+          </Users>
+        </Accounts>
+        <OOBE>
+          <Desktop>
+            <HideOobe>True</HideOobe>
+          </Desktop>
+        </OOBE>
+        <Policies>
+          <ApplicationManagement>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+          </ApplicationManagement>
+        </Policies>
+        <ProvisioningCommands>
+          <PrimaryContext>
+            <Command>
+              <CommandConfig Name="InstallShellLauncher">
+                <CommandLine>dism /online /enable-feature /FeatureName:Client-EmbeddedShellLauncher /all</CommandLine>
+              </CommandConfig>
+              <CommandConfig Name="InstallCustomLogon">
+                <CommandLine>dism /online /enable-feature /FeatureName:Client-EmbeddedLogon /all /norestart</CommandLine>
+              </CommandConfig>
+            </Command>
+          </PrimaryContext>
+        </ProvisioningCommands>
+        <SMISettings>
+          <AutoLogon>
+            <Enable>ENABLE</Enable>
+            <Password>angkor01113</Password>
+            <UserName>ANGKOR</UserName>
+          </AutoLogon>
+          <HideAutologonUI>True</HideAutologonUI>
+          <NoLockScreen>True</NoLockScreen>
+          <ShellLauncher>
+            <Enable>ENABLE</Enable>
+            <UserSpecificSettings>
+              <LocalUserSpecificSettings>
+                <LocalUserShellSetting Username="ANGKOR">
+                  <UserCustomShell>"c:\program files\internet explorer\iexplore.exe www.microsoft.com"</UserCustomShell>
+                </LocalUserShellSetting>
+              </LocalUserSpecificSettings>
+            </UserSpecificSettings>
+          </ShellLauncher>
+          <UIVerbosityLevel>Suppress</UIVerbosityLevel>
+        </SMISettings>
+      </Common>
+    </Customizations>
+  </Settings>
+</WindowsCustomizations>

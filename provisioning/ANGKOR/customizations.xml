@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WindowsCustomizations>
+  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
+    <ID>{c2883072-08f4-491b-8e42-4bc3f205927e}</ID>
+    <Name>ANGKOR</Name>
+    <Version>1.0</Version>
+    <OwnerType>OEM</OwnerType>
+    <Rank>0</Rank>
+    <Notes />
+  </PackageConfig>
+  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning" />
+</WindowsCustomizations>
