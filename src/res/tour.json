@@ -1,71 +1,71 @@
 {
     "idle": {
         "type": "none",
-        "name": "EXPLORE ANGKOR!",
-        "en": "Get in the chopper and make the tourist tour or switch to Lidar-mode and discover what's hidden underneath the surface.",
-        "es": "¡SOBREVUELA ANGKOR! Observa los templos desde arriba. Cuando el sensor Lidar esté encendido, descubre lo que se esconde bajo el bosque. Usa la esfera de desplazamiento para situarte en un punto.",
+        "name": "FLY OVER ANGKOR!",
+        "en": "See the temples from above. When the Lidar-sensor is on, discover what's hidden beneath the forest.\n\nUse the trackball to hover on a spot.",
+        "es": "¡SOBREVUELA ANGKOR! Observa los templos desde arriba. Cuando el sensor Lidar esté encendido, descubre lo que se esconde bajo el bosque.\n\nUsa la esfera de desplazamiento para situarte en un punto.",
         "img": "/hotspots/HS_A_IMG_101.png"
     },
     "A1": {
         "type": "satellite",
         "name": "ANGKOR WAT",
-        "en": "Built between 1113 and 1150 by Suryavarman II as his state temple and capital city. It's a huge religious monument measuring 5000 acres in surface.",
+        "en": "Built between 1,113 and 1,150, Suryavarman II’s state temple was huge. It covers 5,000 acres, or almost 3,800 football fields. ",
         "es": "Construido entre 1113 y 1150, el templo estatal de Suryavarman II era enorme. Cubre 5000 acres, o casi 3800 campos de fútbol.",
         "img": ["/hotspots/HS_A_IMG_101.png", "/hotspots/HS_A_IMG_102.png"]
     },
     "A2": {
         "type": "satellite",
         "name": "ANGKOR THOM",
-        "en": "The last and most enduring capital city of the Khmer Empire. A fortified city, built by Ankgor's greatest King Jayavarman VII who ruled from 1181-1219.",
+        "en": "The last and most enduring capital city of the Khmer Empire. Walled and moated, it was built by the great King Jayavarman VII, who ruled from 1,181 to 1,219.",
         "es": "La última capital del Imperio Jemer y la más duradera. Amurallada y con fosos, fue construida por el gran rey Jayavarman VII, que gobernó de 1181 a 1219.",
         "img": ["/hotspots/HS_A_IMG_201.png", "/hotspots/HS_A_IMG_202.png"]
     },
     "A3": {
         "type": "satellite",
         "name": "TA PROHM",
-        "en": "Built by Angkor's greatest King Jayavarman VII. He dedicated this temple to his mother. It is 'the kingdom of strangler trees' as it was left untouched.",
+        "en": "Angkor's greatest king, Jayavarman VII, dedicated this temple to his mother. Left untouched, it has been reclaimed by strangler figs.",
         "es": "El más grande rey de Angkor, Jayavarman VII, dedicó este templo a su madre. Este ha permanecido intacto y ha sido invadido por higueras estranguladoras.",
         "img": ["/hotspots/HS_A_IMG_301.png", "/hotspots/HS_A_IMG_302.png"]
     },
     "A4": {
         "type": "satellite",
         "name": "BAYON TEMPLE",
-        "en": "Famous for all its towers decorated with stone faces. This temple was dedicated to Buddha.  There are 54 peaks which are said to symbolisze the 54 provinces of the Khmer Empire.",
+        "en": "Famous for its towers adorned with stone faces. This temple, dedicated to Buddha, is at the center of Angkor Thom. Its bas reliefs depict scenes of everyday life.",
         "es": "TEMPLO DE BAYON. Famoso por sus torres adornadas con rostros de piedra, este templo, dedicado a Buda, se encuentra en el centro de Angkor Thom. Sus bajorrelieves representan escenas de la vida cotidiana.",
         "img": ["/hotspots/HS_A_IMG_401.png", "/hotspots/HS_A_IMG_402.png"]
     },
     "A5": {
         "type": "satellite",
         "name": "PRE RUP",
-        "en": "Temple dedicated to the Hindu god Shiva. It goes back to the beginning of the Empire: King Rajendravarman built it in 961!",
+        "en": "Temple dedicated to the Hindu god Shiva. Built in 961 by King Rajendravarman II. A mountain temple with steep stairs leading to its center. ",
         "es": "Templo dedicado al dios hindú Shiva. Fue construido en 961 por el rey Rajendravarman II. Es un templo de montaña con una escalera empinada que lleva a su centro.",
         "img": ["/hotspots/HS_A_IMG_501.png", "/hotspots/HS_A_IMG_502.png"]
     },
     "A6": {
         "type": "satellite",
         "name": "PREAH KHAN",
-        "en": "This site was more than just a temple. It was a real city with several Buddhist monasteries and a university with more than thousand of scholars.",
+        "en": "Jayavarman VII dedicated this temple to his father. It was named ‘sacred sword,’ after one of the king’s glorious symbols.",
         "es": "Jayavarman VII dedicó este templo a su padre. Se llamó “espada sagrada”, en honor a uno de los símbolos gloriosos del rey.",
         "img": ["/hotspots/HS_A_IMG_601.png", "/hotspots/HS_A_IMG_602.png"]
     },
     "A7": {
         "type": "satellite",
         "name": "TA KEO",
-        "en": "This temple was dedicated to the Hindu god Shiva. The stone walls show a very high precsion of workmanship. However, it was was never finished.",
+        "en": "This temple was dedicated to the Hindu god Shiva. The stone walls show workmanship of high precision. However, it was never finished.",
         "es": "Este templo se dedicó al dios hindú Shiva. Las paredes de piedra muestran un trabajo de alta precisión. Sin embargo, nunca se terminó.",
         "img": ["/hotspots/HS_A_IMG_701.png", "/hotspots/HS_A_IMG_702.png"]
     },
     "A8": {
         "type": "satellite",
         "name": "SRAH SRANG",
-        "en": "This is a 'Baray' a man made water reservoir. There are two more big Barays at Angkor, located East and West of Angkor Wat.",
+        "en": "This is a baray, or engineered water reservoir. There are two more big barays at Angkor, located east and west of Angkor Wat.",
         "es": "Se trata de un baray, o depósito artificial de agua. Hay otros dos barays grandes en Angkor, ubicados al este y al oeste de Angkor Wat.",
         "img": ["/hotspots/HS_A_IMG_801.png", "/hotspots/HS_A_IMG_802.png"]
     },
     "L1": {
         "type": "lidar",
         "name": "LIDAR VIEW",
-        "en": "The 11th century West Baray is perhaps the largest walled reservoir excavated in human history.",
+        "en": "The 11th-century West Baray is the largest walled reservoir ever made by humans.",
         "es": "El Baray Occidental, del siglo XI, es el embalse amurallado más grande jamás construido por el ser humano.",
         "img": ["/hotspots/HS_L_IMG_101.png", "/hotspots/HS_L_IMG_102.png"]
     },
@@ -79,42 +79,42 @@
     "L3": {
         "type": "lidar",
         "name": "LIDAR VIEW",
-        "en": "Complex water management infrastructure mingles with enigmatic grids of mounds in this area.",
+        "en": "Here, complex infrastructure for managing water is intermixed with mounds in grid formation.",
         "es": "Aquí, la infraestructura compleja para la gestión del agua se entremezcla con montículos en forma de cuadrícula.",
         "img": ["/hotspots/HS_L_IMG_301.png", "/hotspots/L3_oblique_new.png"]
     },
     "L4": {
         "type": "lidar",
         "name": "LIDAR VIEW",
-        "en": "Around Angkor Wat traces can be seen of a planned grid of occupation mounds and ponds.",
+        "en": "Around Angkor Wat are traces of ponds and a grid of mounds suggesting habitation.",
         "es": "Alrededor de Angkor Wat hay rastros de estanques y una cuadrícula de montículos que sugieren la existencia de viviendas.",
         "img": ["/hotspots/HS_L_IMG_401.png", "/hotspots/HS_L_IMG_402.png"]
     },
     "L5": {
         "type": "lidar",
         "name": "LIDAR VIEW",
-        "en": "Huge reservoirs have island temples their centre, which the king and others would visit by boat.",
+        "en": "Huge reservoirs have island temples at their centers. The king and others visited these by boat.",
         "es": "Los enormes estanques tienen templos insulares en sus centros. El rey y otros los visitaban en barco.",
         "img": ["/hotspots/HS_L_IMG_501.png", "/hotspots/HS_L_IMG_502.png"]
     },
     "L6": {
         "type": "lidar",
         "name": "LIDAR VIEW",
-        "en": "The king’s palace was made of wood and has disappeared, but its walls and chapels remain.",
+        "en": "Made of wood, the king’s palace has disappeared, but its enclosures and some smaller structures remain.",
         "es": "El palacio del rey, hecho de madera, ha desaparecido, pero sus recintos y algunas estructuras más pequeñas permanecen.",
         "img": ["/hotspots/HS_L_IMG_601.png", "/hotspots/HS_L_IMG_602.png"]
     },
     "L7": {
         "type": "lidar",
         "name": "LIDAR VIEW",
-        "en": "Modern-day Siem Reap city encroaches on enigmatic ‘spiral’ features next to Angkor Wat.",
+        "en": "Modern Siem Reap city encroaches on enigmatic spiral features next to Angkor Wat.",
         "es": "La ciudad moderna de Siem Reap traspasa los enigmáticos elementos en espiral junto a Angkor Wat.",
         "img": ["/hotspots/HS_L_IMG_701.png", "/hotspots/HS_L_IMG_702.png"]
     },
     "L8": {
         "type": "lidar",
         "name": "LIDAR VIEW",
-        "en": "A network of highways connected central Angkor to other towns and cities across the Empire.",
+        "en": "A network of highways connected central Angkor to towns and cities across the empire.",
         "es": "Una red de carreteras conectaba el centro de Angkor con pueblos y ciudades de todo el imperio.",
         "img": ["/hotspots/HS_L_IMG_801.png", "/hotspots/HS_L_IMG_802.png"]
     }

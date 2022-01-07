@@ -102,6 +102,8 @@ export default {
     top: 124px;
     left: 33px;
 
+    white-space: pre-wrap;
+
     width: 262px;
     /* height: 168px; */
 
@@ -109,9 +111,10 @@ export default {
     padding-top: 24px;
     padding-bottom: 4px;
 
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.6);
 
-    font-size: 14.5px;
+    /* font-size: 14.5px; */
+    font-size: 16px;
     font-weight: bold;
     text-align: left;
 }
