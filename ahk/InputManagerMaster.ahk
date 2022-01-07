@@ -7,18 +7,35 @@
 #Include %A_ScriptDir%\Lib\BIGA\export.ahk
 SetFormat, FloatFast, 3.0
 
+global SHOW_UI := True
+global SHOW_UPDATES := True
+
 ; Initial device numbers
-global DEFAULT_NAMES := ["6&2593412b&0&0000", "6&228ff76&0&0000", "6&e35d201&0&0000"]
-global launched := [False, False, False]
+global DEFAULT_NAMES := ["e35","244", "20d"]
 global currentHandles := [0, 0, 0]
 global currentNames := ["", "", ""]
-
-
+global currentPIDs := [0, 0, 0]
 
 ; Create hidden GUI to get a handle for windows
 Gui, +Resize -MaximizeBox -MinimizeBox +LastFound
-Gui, Add, Text, , Trackball %devid%
+Gui, Add, Text, , Trackball Manager
+if (SHOW_UI) {
+    if (SHOW_UPDATES) {
+        Gui, Add, ListView, r10 w800 vTrackballList, # | Handle      | Name | Last Timestamp | pid
+    } else {
+        Gui, Add, ListView, r3 w800 vTrackballList, # | Handle      | Name
+    }
+}
 GuiHandle := WinExist()
+
+if (SHOW_UI) {
+    Gui, Show
+
+    ; populate UI
+    LV_Add(1,1,0,"_")
+    LV_Add(2,2,0,"_")
+    LV_Add(3,3,0,"_")
+}
 
 ; Load BIGA Lib
 A := new biga()
@@ -35,50 +52,98 @@ AHKHID_AddRegister(1)
 AHKHID_AddRegister(1, 2, GuiHandle, RIDEV_INPUTSINK)
 AHKHID_Register()
 
+global devices
+AHKHID_GetRegisteredDevs(devices)
+For i, v in devices {
+    MsgBox %v%
+}
+return
+
+GuiClose:
+
+For i, v in currentPIDs {
+    Process, close, %v%
+}
+
+ExitApp
+
+
 InputMsg(wParam, lParam) {
-    local handle, name, nameparts, isTrackball, rept
+    local handle, isTrackball
 
     ; Get device info
     handle := AHKHID_GetInputInfo(lParam, II_DEVHANDLE)
 
     ; Don't process active devices
-    rept := A.indexOf(currentHandles, handle)
-    if (rept != -1) {
+    local sameHandle := A.indexOf(currentHandles, handle)
+    if (sameHandle != -1) {
+        if (SHOW_UPDATES) {
+            LV_Modify(sameHandle, "Col4", A_TickCount)
+        }
         return
     }
 
     ; Check if device is a trackball
-    name := AHKHID_GetDevName(handle, True)
-    nameparts := StrSplit(name, "#")
-    If (nameparts[2] == "VID_D209&PID_15A1") {
+    local devname := AHKHID_GetDevName(handle, True)
+    local devnameparts := StrSplit(devname, "#")
+    If (devnameparts[2] == "VID_D209&PID_15A1") {
         isTrackball := True
     } else {
-        isTrackball := False
-    }
-
-    ; Only process trackballs
-    if (!isTrackball) {
+        ; Only process trackballs
         return
     }
+    local name := SubStr(devnameparts[3], 3, 3)
 
     ; Unused default devices get preference
-    local defaultIndex := A.indexOf(DEFAULT_NAMES, nameparts[3])
+    local defaultIndex := A.indexOf(DEFAULT_NAMES, name)
     if (defaultIndex != -1) {
         
-        launchManager(defaultIndex, handle, nameparts[3])
+        launchManager(defaultIndex, handle, name)
     } else {
         local unlaunchedId := A.indexOf(currentHandles, 0)
         if (unlaunchedId != -1) {
-            launchManager(unlaunchedId, handle, nameparts[3])
+            launchManager(unlaunchedId, handle, name)
+        } else {
+            local sameNameId := A.indexOf(currentNames, name)
+            if (sameNameId != -1) {
+                ; Replace device of same name
+                launchManager(sameNameId, handle, name)
+            } else {
+                ; We don't know which device was replaced, reset all
+                reset()
+            }
         }
     }
 
 }
 
 launchManager(id, handle, name) {
+    local pid, oldPID
+
+    oldPID := currentPIDs[id]
+    if (oldPID != 0) {
+        MsgBox, closing process %oldPID%
+        Process, Close, %oldPID%
+    }
     
     currentHandles[id] := handle
     currentNames[id] := name
 
-    MsgBox, register device %name% as %id%
+    run InputManager.ahk %id% %name%,,,pid
+    currentPIDs[id] := pid
+
+    if (SHOW_UI) {
+        LV_Modify(id,,id, handle, name, A_TickCount, pid)
+    }
+}
+
+reset() {
+    global currentHandles := [0, 0, 0]
+    global currentNames := ["", "", ""]
+
+    if (SHOW_UI) {
+        LV_Modify(1,,1,0,"_")
+        LV_Modify(2,,2,0,"_")
+        LV_Modify(3,,3,0,"_")
+    }
 }

@@ -10,29 +10,12 @@
 ;To make x,y movements look nice
 SetFormat, FloatFast, 3.0
 
-; Device numbers to seperate the trackballs
-global DEV1 := "6&2593412b&0&0000"
-global DEV2 := "6&228ff76&0&0000"
-global DEV3 := "6&e35d201&0&0000"
-
-; Device number for the specified device
-global devnumber := ""
-
-; ID (1/2/3) for the specified device, equals the CLI argument
-global devid := 0
-If (A_Args.Length() > 0) {
+global devicename, devid
+If (A_Args.Length() > 1) {
     devid := A_Args[1]
-    If A_Args[1] == "1" {
-        devnumber := DEV1
-    }
-    If A_Args[1] == "2" {
-        devnumber := DEV2
-    }
-    If A_Args[1] == "3" {
-        devnumber := DEV3
-    }
+    devicename := A_Args[2]
 } else {
-    MsgBox, please enter desired device (1/2/3)
+    MsgBox, please specify id and device name (3 char code)
     ExitApp
 }
 
@@ -80,12 +63,12 @@ InputMsg(wParam, lParam) {
     } else {
         if (h == devhandle) {
 
-            ; if (skippedCount > 0) {
-                ; skippedCount := 0
+            if (skippedCount > 2) {
+                skippedCount := 0
             sendTrackballInput(h, lParam)
-            ; } else {
-                ; skippedCount +=1
-            ; }
+            } else {
+                skippedCount +=1
+            }
         }
     }
 }
@@ -120,6 +103,8 @@ sendTrackballInput(h, lParam) {
 
 ; Check if this device is the desired trackpad, if so, register the handle
 tryRegisterDevHandle(h) {
+    local devname, devnameparts, name
+
     devname := AHKHID_GetDevName(h, True)
 
     ; Check if device is a trackball
@@ -127,9 +112,11 @@ tryRegisterDevHandle(h) {
 
     ; Check that the device is a trackball
     If (devnameparts[2] == "VID_D209&PID_15A1") {
+
+        name := SubStr(devnameparts[3], 3, 3)
         
         ; Check that the device is the desired device
-        If (devnameparts[3] == devnumber) {
+        If (name == devicename) {
             devhandle := h
         }
     }
