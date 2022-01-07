@@ -11,8 +11,8 @@
 SetFormat, FloatFast, 3.0
 
 ; Device numbers to seperate the trackballs
-global DEV1 := "6&20d96b6f&0&0000"
-global DEV2 := "6&24472387&0&0000"
+global DEV1 := "6&2593412b&0&0000"
+global DEV2 := "6&228ff76&0&0000"
 global DEV3 := "6&e35d201&0&0000"
 
 ; Device number for the specified device
@@ -80,12 +80,12 @@ InputMsg(wParam, lParam) {
     } else {
         if (h == devhandle) {
 
-            if (skippedCount > 2) {
-                skippedCount := 0
-                sendTrackballInput(h, lParam)
-            } else {
-                skippedCount +=1
-            }
+            ; if (skippedCount > 0) {
+                ; skippedCount := 0
+            sendTrackballInput(h, lParam)
+            ; } else {
+                ; skippedCount +=1
+            ; }
         }
     }
 }
@@ -115,7 +115,7 @@ sendTrackballInput(h, lParam) {
     ; 1: The device ID
     ; 2: Input on x-axis (negative numbers wrapped around)
     ; 3: Input on y-axis (negative numbers wrapped around)
-    Send {U+0A%devid%%x%%y%}
+    Send, {U+0A%devid%%x%%y%}
 }
 
 ; Check if this device is the desired trackpad, if so, register the handle
