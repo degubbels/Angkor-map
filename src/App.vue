@@ -94,6 +94,15 @@ export default {
     cursor: none;
 }
 
+body {
+    margin: 0;
+    overflow: hidden
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
 @font-face {
     font-family: KhmerUI;
     /* src: url(./src/res/font/KhmerUIb.ttf) format("truetype") */
@@ -108,10 +117,6 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50; */
-}
-
-body {
-    margin: 0;
 }
 
 .tourcontainer {
