@@ -14,6 +14,8 @@
             @enter-idle="this.aIdle = true; this.aSpot = 'idle'"
             @leave-idle="this.aIdle = false"
             class="reticle-a"
+            startPosX=692
+            startPosY=790
             orientation='horizontal'
         ></Reticle>
     </div>
@@ -30,6 +32,8 @@
             @enter-idle="this.bIdle = true; this.bSpot = 'idle'"
             @leave-idle="this.bIdle = false"
             class='reticle-b'
+            startPosX=640
+            startPosY=226
             orientation='vertical'
         ></Reticle>
     </div>
@@ -46,6 +50,8 @@
             @enter-idle="this.cIdle = true; this.cSpot = 'idle'"
             @leave-idle="this.cIdle = false"
             class='reticle-c'
+            startPosX=1514
+            startPosY=519
             orientation='vertical'
         ></Reticle>
     </div>

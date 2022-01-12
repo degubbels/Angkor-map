@@ -59,7 +59,9 @@ export default {
         'hotspot',
         'idle',
         'deviceID',
-        'orientation'
+        'orientation',
+        'startPosX',
+        'startPosY'
     ],
     emits: [
         'hotspotFound',
@@ -342,11 +344,17 @@ export default {
             this.rY = 116;
         }
 
+        // Set starting position
+        this.pos.x = parseInt(this.$props.startPosX, 10);
+        this.pos.y = parseInt(this.$props.startPosY, 10);
+        // this.lastpos.x = this.$props.startPosX;
+        // this.lastpos.y = this.$props.startPosY;
+
         this.redraw();
 
         // Register listener to keyboard input (incl. InputManager messages)
         document.addEventListener('keydown', this.onKey);
-        document.addEventListener('mousemove', this.processMouseInput);
+        // document.addEventListener('mousemove', this.processMouseInput);
 
         // Start interaction loop
         window.requestAnimationFrame(this.updateLoop);
