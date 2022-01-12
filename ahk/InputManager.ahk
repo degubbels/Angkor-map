@@ -75,11 +75,12 @@ InputMsg(wParam, lParam) {
 
 ; Get input from this device and send to app
 sendTrackballInput(h, lParam) {
-    local x, y, currentWindow
+    local x, y, currentWindow, strval
 
     ; Check that the application is in focus
     WinGetActiveTitle, currentWindow
-    if (currentWindow == "ANGKOR-INTERACTIVE - Mozilla Firefox") {
+    
+    if (SubStr(currentWindow, 1, 18) == "ANGKOR-INTERACTIVE") {
             
         x := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTX)
         y := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTY)

@@ -11,7 +11,7 @@ global SHOW_UI := False
 global SHOW_UPDATES := False
 
 ; Initial device numbers
-global DEFAULT_NAMES := ["e35","384", "228"]
+global DEFAULT_NAMES := ["e35","244", "20d"]
 global currentHandles := [0, 0, 0]
 global currentNames := ["", "", ""]
 global currentPIDs := [0, 0, 0]
@@ -128,7 +128,7 @@ launchManager(id, handle, name) {
     currentHandles[id] := handle
     currentNames[id] := name
 
-    run C:\Users\ANGKOR-INTERACTIVE\interactive\InputManager\InputManager.exe %id% %name%,,,pid
+    run InputManager.exe %id% %name%,,,pid
     currentPIDs[id] := pid
 
     if (SHOW_UI) {
