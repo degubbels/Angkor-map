@@ -10,29 +10,12 @@
 ;To make x,y movements look nice
 SetFormat, FloatFast, 3.0
 
-; Device numbers to seperate the trackballs
-global DEV1 := "6&2593412b&0&0000"
-global DEV2 := "6&228ff76&0&0000"
-global DEV3 := "6&e35d201&0&0000"
-
-; Device number for the specified device
-global devnumber := ""
-
-; ID (1/2/3) for the specified device, equals the CLI argument
-global devid := 0
-If (A_Args.Length() > 0) {
+global devicename, devid
+If (A_Args.Length() > 1) {
     devid := A_Args[1]
-    If A_Args[1] == "1" {
-        devnumber := DEV1
-    }
-    If A_Args[1] == "2" {
-        devnumber := DEV2
-    }
-    If A_Args[1] == "3" {
-        devnumber := DEV3
-    }
+    devicename := A_Args[2]
 } else {
-    MsgBox, please enter desired device (1/2/3)
+    MsgBox, please specify id and device name (3 char code)
     ExitApp
 }
 
@@ -80,46 +63,54 @@ InputMsg(wParam, lParam) {
     } else {
         if (h == devhandle) {
 
-            ; if (skippedCount > 0) {
-                ; skippedCount := 0
+            if (skippedCount > 2) {
+                skippedCount := 0
             sendTrackballInput(h, lParam)
-            ; } else {
-                ; skippedCount +=1
-            ; }
+            } else {
+                skippedCount +=1
+            }
         }
     }
 }
 
 ; Get input from this device and send to app
 sendTrackballInput(h, lParam) {
-    local x, y
+    local x, y, currentWindow, strval
 
-    x := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTX)
-    y := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTY)
+    ; Check that the application is in focus
+    WinGetActiveTitle, currentWindow
+    
+    if (SubStr(currentWindow, 1, 18) == "ANGKOR-INTERACTIVE") {
+            
+        x := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTX)
+        y := AHKHID_GetInputInfo(lParam, II_ II_MSE_LASTY)
 
-    ; Wrap negative around 16
-    if (x < 0) {
-        x := 15 + x 
+        ; Wrap negative around 16
+        if (x < 0) {
+            x := 15 + x 
+        }
+        if (y < 0) {
+            y := 15 + y
+        }
+
+        ; Convert to hex chars
+        x := charToHex(x)
+        y := charToHex(y)
+
+        ; Send data to browser by unicoded-code message sent as keypresses
+        ; A message consists of 4 hex chars
+        ; 0: Constant A signalling that this char is an input message
+        ; 1: The device ID
+        ; 2: Input on x-axis (negative numbers wrapped around)
+        ; 3: Input on y-axis (negative numbers wrapped around)
+        Send, {U+0A%devid%%x%%y%}
     }
-    if (y < 0) {
-        y := 15 + y
-    }
-
-    ; Convert to hex chars
-    x := charToHex(x)
-    y := charToHex(y)
-
-    ; Send data to browser by unicoded-code message sent as keypresses
-    ; A message consists of 4 hex chars
-    ; 0: Constant A signalling that this char is an input message
-    ; 1: The device ID
-    ; 2: Input on x-axis (negative numbers wrapped around)
-    ; 3: Input on y-axis (negative numbers wrapped around)
-    Send, {U+0A%devid%%x%%y%}
 }
 
 ; Check if this device is the desired trackpad, if so, register the handle
 tryRegisterDevHandle(h) {
+    local devname, devnameparts, name
+
     devname := AHKHID_GetDevName(h, True)
 
     ; Check if device is a trackball
@@ -127,9 +118,11 @@ tryRegisterDevHandle(h) {
 
     ; Check that the device is a trackball
     If (devnameparts[2] == "VID_D209&PID_15A1") {
+
+        name := SubStr(devnameparts[3], 3, 3)
         
         ; Check that the device is the desired device
-        If (devnameparts[3] == devnumber) {
+        If (name == devicename) {
             devhandle := h
         }
     }
