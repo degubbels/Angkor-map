@@ -139,10 +139,10 @@ export default {
         //     }
         // },
         // Deprecated
-        // processMouseInput(e) {
-        //     this.pos.x = e.x;
-        //     this.pos.y = e.y;
-        // },
+        processMouseInput(e) {
+            this.pos.x = e.x;
+            this.pos.y = e.y;
+        },
 
         // Process input for input manager for new frame
         processMovement(delta) {
@@ -346,6 +346,7 @@ export default {
 
         // Register listener to keyboard input (incl. InputManager messages)
         document.addEventListener('keydown', this.onKey);
+        document.addEventListener('mousemove', this.processMouseInput);
 
         // Start interaction loop
         window.requestAnimationFrame(this.updateLoop);

@@ -68,11 +68,12 @@ export default {
 .infobox {
     position: absolute;
     display: block;
+    z-index: 125;
 }
 
 .namelabel {
     position: absolute;
-    z-index: 30;
+    z-index: 130;
 
     margin: 0px 4px;
     top: calc(152px - 26px);
@@ -87,7 +88,7 @@ export default {
 .imagebox {
     display: block;
     position: absolute;
-    z-index: 25;
+    z-index: 125;
 
     width: 282px;
     height: 152px;

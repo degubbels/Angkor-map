@@ -2,6 +2,7 @@
 <div>
     <img src="/background-new.png" class="background">
     <div class="tourcontainer" id="A">
+        <InfoBox :textSource="tour" :hotspot="aSpot"></InfoBox>
         <Reticle 
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
@@ -15,9 +16,9 @@
             class="reticle-a"
             orientation='horizontal'
         ></Reticle>
-        <InfoBox :textSource="tour" :hotspot="aSpot"></InfoBox>
     </div>
     <div class="tourcontainer" id="B">
+        <InfoBox :textSource="tour" :hotspot="bSpot"></InfoBox>
         <Reticle 
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
@@ -31,9 +32,9 @@
             class='reticle-b'
             orientation='vertical'
         ></Reticle>
-        <InfoBox :textSource="tour" :hotspot="bSpot"></InfoBox>
     </div>
     <div class="tourcontainer" id="C">
+        <InfoBox :textSource="tour" :hotspot="cSpot"></InfoBox>
         <Reticle 
             image="/hotspots-map-new.png"
             lidarImage="/hotspots-map-overlay-lidar-adjusted.png"
@@ -47,7 +48,6 @@
             class='reticle-c'
             orientation='vertical'
         ></Reticle>
-        <InfoBox :textSource="tour" :hotspot="cSpot"></InfoBox>
     </div>
 </div>
 </template>
