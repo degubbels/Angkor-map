@@ -354,7 +354,10 @@ export default {
 
         // Register listener to keyboard input (incl. InputManager messages)
         document.addEventListener('keydown', this.onKey);
-        // document.addEventListener('mousemove', this.processMouseInput);
+
+        if (this.deviceID == 1) {
+            document.addEventListener('mousemove', this.processMouseInput);
+        }
 
         // Start interaction loop
         window.requestAnimationFrame(this.updateLoop);
