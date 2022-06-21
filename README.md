@@ -1,7 +1,10 @@
-# Vue 3 + Vite
+# Angkor map interactive
+https://map-angkor.degu.info
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## FLY OVER ANGKOR!
+See the temples from above. When the Lidar-sensor is on, discover what's hidden beneath the forest. Use the trackball to hover on a spot.
 
-## Recommended IDE Setup
+Interactive showing the Angkor temple complex in Cambodia. Created for the Angkor exhibition on behalf of Museumspartner:
+https://www.museumspartner.com/en/wanderausstellungen/angkor/
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+App built with Vue. Autohotkey is used for managing trackball devices on the installation.
