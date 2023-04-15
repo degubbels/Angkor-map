@@ -2,7 +2,7 @@
     <div class="infobox">
         <div class="textbox">
             <p class="text-en">{{textEn}}</p>
-            <p class="text-es">{{textEs}}</p>
+            <p class="text-sec">{{textFr}}</p>
         </div>
         <img class="imagebox"
             :src="image"
@@ -24,6 +24,7 @@ export default {
             image: null,
             textEn: "",
             textEs: "",
+            textFr: "",
             name:"",
             imageIndex: 0,
             intervalLoop: null,
@@ -42,6 +43,7 @@ export default {
             this.name = this.$props.textSource[this.hotspot].name;
             this.textEn = this.$props.textSource[this.hotspot].en;
             this.textEs = this.$props.textSource[this.hotspot].es;
+            this.textFr = this.$props.textSource[this.hotspot].fr;
 
             const srcImg = this.$props.textSource[this.hotspot].img;
             window.clearInterval(this.intervalLoop);
@@ -124,7 +126,7 @@ export default {
     color: white;
 }
 
-.text-es {
+.text-sec {
     color: #eff163;
 }
 
