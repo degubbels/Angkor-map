@@ -1,8 +1,8 @@
 <template>
     <div class="infobox">
         <div class="textbox">
-            <p class="text-en">{{textEn}}</p>
-            <p class="text-sec">{{textFr}}</p>
+            <p class="text-en">{{textNl}}</p>
+            <p class="text-sec">{{textEn}}</p>
         </div>
         <img class="imagebox"
             :src="image"
@@ -25,6 +25,7 @@ export default {
             textEn: "",
             textEs: "",
             textFr: "",
+            textNl: "",
             name:"",
             imageIndex: 0,
             intervalLoop: null,
@@ -44,6 +45,7 @@ export default {
             this.textEn = this.$props.textSource[this.hotspot].en;
             this.textEs = this.$props.textSource[this.hotspot].es;
             this.textFr = this.$props.textSource[this.hotspot].fr;
+            this.textNl = this.$props.textSource[this.hotspot].nl;
 
             const srcImg = this.$props.textSource[this.hotspot].img;
             window.clearInterval(this.intervalLoop);
